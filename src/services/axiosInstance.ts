@@ -1,5 +1,6 @@
 import axios from "axios";
-let baseURL = "http://localhost:8000/api";
+let baseURL =
+  "http://http://tutoringsgserver-env.eba-hzvzecp2.ap-southeast-1.elasticbeanstalk.com/api";
 
 const instance = axios.create({
   baseURL,
