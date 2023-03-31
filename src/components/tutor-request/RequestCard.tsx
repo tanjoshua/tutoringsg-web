@@ -16,7 +16,7 @@ import {
   ClipboardDocumentListIcon,
 } from "@heroicons/react/24/outline";
 
-export default ({
+export default function RequestCard({
   tutorRequest,
   showDetails,
   refetch,
@@ -24,7 +24,7 @@ export default ({
   tutorRequest: any;
   showDetails: Function;
   refetch: Function;
-}) => {
+}) {
   // normal version
   return (
     <div className="py-6 flex flex-1 flex-col">
@@ -137,4 +137,4 @@ export default ({
       </div>
     </div>
   );
-};
+}

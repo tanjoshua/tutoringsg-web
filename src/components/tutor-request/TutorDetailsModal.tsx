@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { getTutorApplication } from "@/services/tutorRequest";
 import { ApplicationState } from "@/utils/enums";
 import { PhoneIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import Image from "next/image";
 
 export default function TutorDetailsModal({
   id,
@@ -62,7 +63,8 @@ export default function TutorDetailsModal({
                   <div className="flex px-4 py-5 sm:px-6">
                     <div className="flex-1 sm:flex space-y-4 sm:space-x-6">
                       <div className="flex-shrink-0 overflow-hidden rounded-md">
-                        <img
+                        <Image
+                          alt="profile picture"
                           src={
                             data?.tutorApplication?.tutorProfile?.profilePic
                               ?.location ||

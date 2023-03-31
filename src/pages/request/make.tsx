@@ -124,7 +124,7 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                   Request information
                 </h3>
                 <p className="mt-1 text-sm text-gray-600">
-                  Describe the tutor you're looking for.
+                  Describe the tutor you&apos;re looking for.
                 </p>
               </div>
             </div>
@@ -488,7 +488,8 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                     Notifications
                   </h3>
                   <p className="mt-1 text-sm text-gray-600">
-                    Decide which communications you'd like to receive and how.
+                    Decide which communications you&apos;d like to receive and
+                    how.
                   </p>
                 </div>
               </div>

@@ -18,6 +18,7 @@ import ShareModal from "@/components/tutor-profile/ShareModal";
 import { LevelCategories } from "@/utils/options/levels";
 import ContactModal from "@/components/tutor-profile/ContactModal";
 import Link from "next/link";
+import Image from "next/image";
 
 const TutorProfile: NextPageWithLayout = () => {
   const router = useRouter();
@@ -83,7 +84,8 @@ const TutorProfile: NextPageWithLayout = () => {
         />
         <div className="lg:flex lg:items-center lg:justify-between px-4 py-5 sm:px-6 space-y-4 lg:space-x-6">
           <div className="flex-shrink-0 overflow-hidden rounded-md">
-            <img
+            <Image
+              alt="profile picture"
               src={
                 profile.profilePic?.location ||
                 "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"

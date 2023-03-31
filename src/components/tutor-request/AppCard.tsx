@@ -8,6 +8,7 @@ import {
 import { updateTutorApplicationState } from "@/services/tutorRequest";
 import { ApplicationState } from "@/utils/enums";
 import { PhoneIcon } from "@heroicons/react/20/solid";
+import Image from "next/image";
 
 interface TutorProfile {
   id: string;
@@ -20,7 +21,7 @@ interface TutorProfile {
   profilePic: { location: string };
 }
 
-export default ({
+export default function AppCard({
   tutorProfile,
   id,
   normal,
@@ -38,17 +39,18 @@ export default ({
   showDetails: Function;
   updateState: (applicationId: string, state: string) => void;
   showContact: Function;
-}) => {
+}) {
   // normal version
   return (
     <li className="flex py-6">
       <div className="h-24 w-24 md:h-32 md:w-32 flex-shrink-0 overflow-hidden rounded-md ">
-        <img
+        <Image
           src={
             tutorProfile.profilePic?.location ||
             "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
           }
           className="h-full w-full object-cover object-center"
+          alt="profile picture"
         />
       </div>
 
@@ -148,4 +150,4 @@ export default ({
       </div>
     </li>
   );
-};
+}

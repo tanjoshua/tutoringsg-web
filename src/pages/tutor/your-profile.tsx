@@ -20,12 +20,13 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import ShareModal from "@/components/tutor-profile/ShareModal";
 import { LevelCategories } from "@/utils/options/levels";
-import { redirectIfNotLoggedIn } from "@/utils/redirect";
+import { RedirectIfNotLoggedIn } from "@/utils/redirect";
 import UploadProfilePicModal from "@/components/tutor-profile/UploadProfilePicModal";
 import Link from "next/link";
+import Image from "next/image";
 
 const YourProfile: NextPageWithLayout = () => {
-  redirectIfNotLoggedIn();
+  RedirectIfNotLoggedIn();
   const origin =
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
@@ -64,7 +65,9 @@ const YourProfile: NextPageWithLayout = () => {
                 setUploadModalIsOpen(true);
               }}
             >
-              <img
+              <Image
+                alt="profile picture"
+                fill
                 src={
                   profile.profilePic?.location ||
                   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
@@ -247,7 +250,7 @@ const YourProfile: NextPageWithLayout = () => {
         <div className="mx-auto max-w-4xl py-20 ">
           <div className="text-center">
             <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900">
-              Welcome to tutoring.sg, here's how it works for you
+              Welcome to tutoring.sg, here&apos;s how it works for you
             </h1>
             <dl className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-3 text-start mt-12">
               <div className="flex flex-col items-start">

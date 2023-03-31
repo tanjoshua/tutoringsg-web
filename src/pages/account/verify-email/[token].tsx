@@ -39,7 +39,7 @@ const TutorProfile: NextPageWithLayout = () => {
           toast.error("Error verifying");
         });
     }
-  }, [token]);
+  }, [token, router]);
 
   return (
     <div className="relative px-6 lg:px-8">

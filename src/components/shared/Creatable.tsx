@@ -1,6 +1,6 @@
 import Creatable from "react-select/creatable";
 
-export default (props: any) => {
+export default function CustomCreatable(props: any) {
   return (
     <Creatable
       theme={(theme) => ({
@@ -22,4 +22,4 @@ export default (props: any) => {
       {...props}
     />
   );
-};
+}

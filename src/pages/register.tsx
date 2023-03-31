@@ -6,14 +6,14 @@ import { useFormik } from "formik";
 import { googleRegister, register } from "@/services/auth";
 import { useRouter } from "next/router";
 import axios, { AxiosError } from "axios";
-import { redirectIfLoggedIn } from "@/utils/redirect";
+import { RedirectIfLoggedIn } from "@/utils/redirect";
 import toast from "react-hot-toast";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useQueryClient } from "react-query";
 import Link from "next/link";
 
 const Register: NextPageWithLayout = () => {
-  redirectIfLoggedIn();
+  RedirectIfLoggedIn();
   const router = useRouter();
   const queryClient = useQueryClient();
   const formik = useFormik({

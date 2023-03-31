@@ -21,7 +21,7 @@ import {
 } from "@/utils/options/subjects";
 import { LevelCategories, levelCategoryOptions } from "@/utils/options/levels";
 import { regionOptions } from "@/utils/options/regions";
-import { redirectIfNotLoggedIn } from "@/utils/redirect";
+import { RedirectIfNotLoggedIn } from "@/utils/redirect";
 
 const tutorTypes = [
   "Part-Time Tutor",
@@ -58,7 +58,7 @@ const initialValues = {
 };
 
 const EditProfile: NextPageWithLayout = () => {
-  redirectIfNotLoggedIn();
+  RedirectIfNotLoggedIn();
   const router = useRouter();
   const { isLoading, error, data, refetch } = useQuery(
     "userTutorProfile",
@@ -214,7 +214,10 @@ const EditProfile: NextPageWithLayout = () => {
             {Object.values(LevelCategories).map((level) => {
               if (formik.values.levels.includes(level)) {
                 return (
-                  <div className="md:flex flex-row items-center py-1">
+                  <div
+                    className="md:flex flex-row items-center py-1"
+                    key={level}
+                  >
                     <div className="w-32">{level}: </div>
                     <div className="flex-1">
                       <Creatable

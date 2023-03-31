@@ -23,7 +23,7 @@ const Navbar = () => {
 
   const queryClient = useQueryClient();
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
-  const isLoggedIn = !isLoading && !!data.user;
+  const isLoggedIn = !isLoading && !!data?.user;
   const navigation = isLoading
     ? []
     : atTutorPortal

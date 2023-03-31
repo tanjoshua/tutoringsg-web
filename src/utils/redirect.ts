@@ -4,34 +4,34 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 
-export const redirectIfNotLoggedIn = () => {
+export const RedirectIfNotLoggedIn = () => {
   const router = useRouter();
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
-  const isLoggedIn = !isLoading && !!data.user;
+  const isLoggedIn = !isLoading && !!data?.user;
 
   useEffect(() => {
-    if (!isLoading && !isLoggedIn) {
+    if (!isLoading && !error && !isLoggedIn) {
       router.replace("/login?next=" + router.asPath);
     }
   }, [isLoading, data, router]);
 };
 
-export const redirectIfLoggedIn = () => {
+export const RedirectIfLoggedIn = () => {
   const router = useRouter();
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
-  const isLoggedIn = !isLoading && !!data.user;
+  const isLoggedIn = !isLoading && !!data?.user;
 
   useEffect(() => {
-    if (!isLoading && isLoggedIn) {
+    if (!isLoading && !error && isLoggedIn) {
       router.replace("/tutor/your-profile");
     }
   }, [isLoading, data, router]);
 };
 
-export const redirectIfNoTutorProfile = () => {
+export const RedirectIfNoTutorProfile = () => {
   const router = useRouter();
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
-  const isLoggedIn = !isLoading && !!data.user;
+  const isLoggedIn = !isLoading && !!data?.user;
   const {
     isLoading: profileIsLoading,
     error: profileError,
@@ -39,7 +39,14 @@ export const redirectIfNoTutorProfile = () => {
     refetch: profileRefetch,
   } = useQuery("userTutorProfile", getUserTutorProfile);
   useEffect(() => {
-    if (!isLoading && isLoggedIn && !profileIsLoading && !profileData.profile) {
+    if (
+      !error &&
+      !isLoading &&
+      isLoggedIn &&
+      !profileError &&
+      !profileIsLoading &&
+      !profileData.profile
+    ) {
       router.replace("/tutor/your-profile");
     }
   }, [isLoggedIn, profileIsLoading, profileData, router]);

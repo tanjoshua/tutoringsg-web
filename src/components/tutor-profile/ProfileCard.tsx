@@ -13,24 +13,27 @@ import { MapPinIcon, TagIcon, UserIcon } from "@heroicons/react/20/solid";
 import ContactModal from "./ContactModal";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
-export default ({
+export default function ProfileCard({
   tutorProfile,
   showDetails,
 }: {
   tutorProfile: any;
   showDetails?: Function;
-}) => {
+}) {
   const [contactModalIsOpen, setContactModalIsOpen] = useState(false);
   // normal version
   return (
     <li className="flex py-6">
-      <div className="h-24 w-24 md:h-32 md:w-32 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-        <img
+      <div className="relative h-24 w-24 md:h-32 md:w-32 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+        <Image
+          alt="profile picture"
           src={
             tutorProfile.profilePic?.location ||
             "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
           }
+          fill
           className="h-full w-full object-cover object-center"
         />
       </div>
@@ -83,4 +86,4 @@ export default ({
       </div>
     </li>
   );
-};
+}

@@ -4,12 +4,12 @@ import Layout from "../../components/layouts/Layout";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import Head from "next/head";
-import { redirectIfNotLoggedIn } from "@/utils/redirect";
+import { RedirectIfNotLoggedIn } from "@/utils/redirect";
 import { changePassword } from "@/services/auth";
 import { toast } from "react-hot-toast";
 
 const ChangePassword: NextPageWithLayout = () => {
-  redirectIfNotLoggedIn();
+  RedirectIfNotLoggedIn();
   const router = useRouter();
   const formik = useFormik({
     initialValues: {

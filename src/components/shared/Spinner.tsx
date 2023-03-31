@@ -1,4 +1,4 @@
-export default (props: any) => {
+export default function Spinner(props: any) {
   return (
     <div role="status" className="flex justify-center p-2">
       <svg
@@ -20,4 +20,4 @@ export default (props: any) => {
       <span className="sr-only">Loading...</span>
     </div>
   );
-};
+}

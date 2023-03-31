@@ -126,7 +126,7 @@ export default function UploadProfilePicModal({
                               })}
                             />
                             <p>
-                              Drag 'n' drop your image here, or click to select
+                              Drag n drop your image here, or click to select
                               file
                             </p>
                           </div>

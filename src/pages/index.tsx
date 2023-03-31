@@ -120,7 +120,7 @@ const Home: NextPageWithLayout = () => {
               </div>
               <div className="mt-6 flex justify-center lg:justify-start">
                 <div className="relative rounded-full text-sm leading-6 text-gray-600">
-                  If you're a tutor, join our platform!{" "}
+                  If you&apos;re a tutor, join our platform!{" "}
                   <Link
                     href="/for-tutors"
                     className="font-semibold text-indigo-600"
@@ -140,7 +140,7 @@ const Home: NextPageWithLayout = () => {
                   <div className="mt-6 space-y-4 text-sm md:text-base">
                     <div className="">
                       <label className="block mb-2 font-medium text-white">
-                        Student's level
+                        Student&apos;s level
                       </label>
                       <Select
                         isClearable
@@ -218,7 +218,7 @@ const Home: NextPageWithLayout = () => {
         <div className="relative px-6 lg:px-8">
           <div className="py-16 space-y-10 border-t border-1">
             <div className="text-center text-3xl font-bold tracking-tight text-gray-900">
-              If you're looking for a tutor, here's how it works
+              If you&apos;re looking for a tutor, here&apos;s how it works
             </div>
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <dl className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-3">

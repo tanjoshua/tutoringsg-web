@@ -2,7 +2,7 @@ import Head from "next/head";
 import { NextPageWithLayout } from "./../_app";
 import { ReactElement } from "react";
 import Layout from "../../components/layouts/Layout";
-import { redirectIfNotLoggedIn } from "@/utils/redirect";
+import { RedirectIfNotLoggedIn } from "@/utils/redirect";
 import { useQuery } from "react-query";
 import { getMe } from "@/services/user";
 import Spinner from "@/components/shared/Spinner";
@@ -16,7 +16,7 @@ import { toast } from "react-hot-toast";
 import Link from "next/link";
 
 const AccountDetails: NextPageWithLayout = () => {
-  redirectIfNotLoggedIn();
+  RedirectIfNotLoggedIn();
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
   return (
     <>
@@ -105,8 +105,9 @@ const AccountDetails: NextPageWithLayout = () => {
                 </Link>
               ) : (
                 <div className="mt-1 text-sm leading-6 text-indigo-600">
-                  You cannot change your password since you've created this
-                  account using a Google account
+                  {
+                    "You cannot change your password since you've created this account using a Google account"
+                  }
                 </div>
               )}
             </div>
@@ -116,8 +117,8 @@ const AccountDetails: NextPageWithLayout = () => {
                 Notifications
               </h2>
               <p className="mt-1 text-sm leading-6 text-gray-600">
-                We'll always let you know about important changes, but you pick
-                what else you want to hear about.
+                We will always let you know about important changes, but you
+                pick what else you want to hear about.
               </p>
             </div>
             <div className="mt-2 space-y-10">

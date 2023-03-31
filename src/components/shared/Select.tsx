@@ -1,6 +1,6 @@
 import ReactSelect from "react-select";
 
-export default (props: any) => {
+export default function Select(props: any) {
   return (
     <ReactSelect
       theme={(theme) => ({
@@ -22,4 +22,4 @@ export default (props: any) => {
       {...props}
     />
   );
-};
+}
