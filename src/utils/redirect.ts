@@ -9,11 +9,9 @@ export const RedirectIfNotLoggedIn = () => {
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
   const isLoggedIn = !isLoading && !!data?.user;
 
-  useEffect(() => {
-    if (!isLoading && !error && !isLoggedIn) {
-      router.replace("/login?next=" + router.asPath);
-    }
-  }, [isLoading, data, router]);
+  if (!isLoading && !error && !isLoggedIn) {
+    router.replace("/login?next=" + router.asPath);
+  }
 };
 
 export const RedirectIfLoggedIn = () => {
@@ -21,11 +19,9 @@ export const RedirectIfLoggedIn = () => {
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
   const isLoggedIn = !isLoading && !!data?.user;
 
-  useEffect(() => {
-    if (!isLoading && !error && isLoggedIn) {
-      router.replace("/tutor/your-profile");
-    }
-  }, [isLoading, data, router]);
+  if (!isLoading && !error && isLoggedIn) {
+    router.replace("/tutor/your-profile");
+  }
 };
 
 export const RedirectIfNoTutorProfile = () => {
@@ -38,16 +34,14 @@ export const RedirectIfNoTutorProfile = () => {
     data: profileData,
     refetch: profileRefetch,
   } = useQuery("userTutorProfile", getUserTutorProfile);
-  useEffect(() => {
-    if (
-      !error &&
-      !isLoading &&
-      isLoggedIn &&
-      !profileError &&
-      !profileIsLoading &&
-      !profileData.profile
-    ) {
-      router.replace("/tutor/your-profile");
-    }
-  }, [isLoggedIn, profileIsLoading, profileData, router]);
+  if (
+    !error &&
+    !isLoading &&
+    isLoggedIn &&
+    !profileError &&
+    !profileIsLoading &&
+    !profileData.profile
+  ) {
+    router.replace("/tutor/your-profile");
+  }
 };
