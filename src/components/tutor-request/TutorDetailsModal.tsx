@@ -62,7 +62,7 @@ export default function TutorDetailsModal({
                 <div className="overflow-hidden bg-white shadow sm:rounded-lg">
                   <div className="flex px-4 py-5 sm:px-6">
                     <div className="flex-1 sm:flex space-y-4 sm:space-x-6">
-                      <div className="flex-shrink-0 overflow-hidden rounded-md">
+                      <div className="relative flex-shrink-0 overflow-hidden rounded-md h-40 w-40 lg:h-52 lg:w-52">
                         <Image
                           alt="profile picture"
                           src={
@@ -70,7 +70,7 @@ export default function TutorDetailsModal({
                               ?.location ||
                             "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                           }
-                          className="h-40 w-40 lg:h-52 lg:w-52"
+                          fill
                         />
                       </div>
                       <div>

@@ -22,11 +22,11 @@ import Image from "next/image";
 
 const TutorProfile: NextPageWithLayout = () => {
   const router = useRouter();
-  const { profileId } = router.query;
+  const { urlId } = router.query;
   const { isLoading, error, data, refetch } = useQuery(
-    ["tutorProfile", profileId],
-    () => getTutorProfile({ id: profileId as string }),
-    { enabled: !!profileId }
+    ["tutorProfile", urlId],
+    () => getTutorProfile({ urlId: urlId as string }),
+    { enabled: !!urlId }
   );
   const [shareModalIsOpen, setShareModalIsOpen] = useState(false);
   const [contactModalIsOpen, setContactModalIsOpen] = useState(false);
@@ -72,7 +72,7 @@ const TutorProfile: NextPageWithLayout = () => {
         </Head>
 
         <ShareModal
-          link={`${origin}/tutor-profile/${profile.id}`}
+          link={`${origin}/tutor-profile/${profile.urlId}`}
           open={shareModalIsOpen}
           setOpen={setShareModalIsOpen}
         />

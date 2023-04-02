@@ -1,6 +1,7 @@
 import instance from "./axiosInstance";
 
-export const createTutorProfile = ({
+export const createTutorProfile = async ({
+  urlId,
   isPublic,
   title,
   gender,
@@ -14,6 +15,7 @@ export const createTutorProfile = ({
   pricing,
   contactInfo,
 }: {
+  urlId: string;
   isPublic: boolean;
   title: string;
   gender: string;
@@ -33,7 +35,8 @@ export const createTutorProfile = ({
   pricing: { rate: string; details: string };
   contactInfo: { phoneNumber?: string; email?: string; telegram?: string };
 }) => {
-  return instance.post("/tutor", {
+  const result = await instance.post("/tutor", {
+    urlId,
     isPublic,
     title,
     tutorName,
@@ -50,10 +53,12 @@ export const createTutorProfile = ({
     },
     contactInfo,
   });
+  return result.data;
 };
 
-export const replaceTutorProfile = ({
+export const replaceTutorProfile = async ({
   id,
+  urlId,
   isPublic,
   title,
   gender,
@@ -68,6 +73,7 @@ export const replaceTutorProfile = ({
   contactInfo,
 }: {
   id: string;
+  urlId: string;
   isPublic: boolean;
   title: string;
   gender: string;
@@ -89,6 +95,7 @@ export const replaceTutorProfile = ({
 }) => {
   return instance.put("/tutor", {
     id,
+    urlId,
     isPublic,
     tutorName,
     gender,
@@ -107,12 +114,12 @@ export const replaceTutorProfile = ({
   });
 };
 
-export const deleteTutorProfile = ({ id }: { id: string }) => {
+export const deleteTutorProfile = async ({ id }: { id: string }) => {
   return instance.delete(`/tutor/${id}`);
 };
 
-export const getTutorProfile = async ({ id }: { id: string }) => {
-  const result = await instance.get(`/tutor/${id}`);
+export const getTutorProfile = async ({ urlId }: { urlId: string }) => {
+  const result = await instance.get(`/tutor/${urlId}`);
   return result.data;
 };
 
