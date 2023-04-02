@@ -63,9 +63,9 @@ export default function RequestCard({
                 className="h-5 w-5 flex-shrink-0 text-gray-400"
                 aria-hidden="true"
               />
-              {tutorRequest.gender.length === 2
+              {!tutorRequest.gender
                 ? "Any gender"
-                : tutorRequest.gender.join(", ")}
+                : `Only ${tutorRequest.gender}`}
             </div>
             <div className="flex items-center text-sm text-gray-500">
               <TagIcon

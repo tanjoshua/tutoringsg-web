@@ -410,6 +410,10 @@ const EditProfile: NextPageWithLayout = () => {
           <p className="mt-2 text-sm text-gray-500">
             By making your tutor profile public, your tutor profile will be
             discoverable on our tutor marketplace.
+            <br />
+            Non public profiles can still apply to tutor requests. You can also
+            still share your profile with others using a unique URL, but you
+            wont be discoverable on the marketplace.
           </p>
         </div>
         {formik.isSubmitting ? (

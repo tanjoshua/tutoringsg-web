@@ -62,35 +62,31 @@ export default function TutorRequestModal({
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:m-8 max-w-6xl">
                 <div className="overflow-hidden bg-white shadow sm:rounded-lg">
+                  <div className="absolute right-2 top-2">
+                    <button
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <XMarkIcon className="h-6 w-6 text-gray-600 hover:text-gray-500" />
+                    </button>
+                  </div>
                   <div className="flex px-4 py-5 sm:px-6">
                     <div className="min-w-0 flex-1">
-                      <div className="flex">
-                        <h2 className="flex-1 text-xl font-bold leading-6 text-gray-900 ">
-                          {`${
-                            tutorRequest.level
-                          }: ${tutorRequest.subjects?.join(
-                            ", "
-                          )} Tutor Request`}
-                        </h2>
-                        <div>
-                          <button
-                            onClick={() => {
-                              setOpen(false);
-                            }}
-                          >
-                            <XMarkIcon className="h-6 w-6 text-gray-600 hover:text-gray-500" />
-                          </button>
-                        </div>
-                      </div>
+                      <h2 className="flex-1 text-xl font-bold leading-6 text-gray-900 ">
+                        {`${tutorRequest.level}: ${tutorRequest.subjects?.join(
+                          ", "
+                        )} Tutor Request`}
+                      </h2>
                       <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:space-x-2 ">
                         <div className="flex items-center text-sm text-gray-500">
                           <UserIcon
                             className="h-5 w-5 flex-shrink-0 text-gray-400"
                             aria-hidden="true"
                           />
-                          {tutorRequest.gender?.length === 2
+                          {!tutorRequest.gender
                             ? "Any gender"
-                            : tutorRequest.gender?.join(", ")}
+                            : `Only ${tutorRequest.gender}`}
                         </div>
                         <div className="flex items-center text-sm text-gray-500">
                           <MapPinIcon
