@@ -44,7 +44,7 @@ const MakeTutorRequest: NextPageWithLayout = () => {
       // tutor fields
       level: string;
       subjects: string[];
-      gender: string[];
+      gender: string;
       type: string[];
       pricing: { rate: string; rateOption: string };
       availability: string;
@@ -59,7 +59,7 @@ const MakeTutorRequest: NextPageWithLayout = () => {
         region: "",
         level: "",
         subjects: [],
-        gender: [],
+        gender: "",
         type: [],
         pricing: { rate: "", rateOption: "" },
         availability: "",
@@ -72,7 +72,6 @@ const MakeTutorRequest: NextPageWithLayout = () => {
           !values.region ||
           !values.level ||
           values.subjects.length === 0 ||
-          values.gender.length === 0 ||
           values.type.length === 0 ||
           !values.pricing.rateOption ||
           !values.availability
@@ -203,10 +202,8 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                           id="gender"
                           name="gender"
                           type="radio"
-                          checked={values.gender.length === 2}
-                          onChange={(e) =>
-                            setFieldValue("gender", ["Male", "Female"])
-                          }
+                          checked={!values.gender}
+                          onChange={(e) => setFieldValue("gender", "")}
                         />
                         <label className="w-full ml-2 text-sm text-gray-900 ">
                           Both
@@ -217,14 +214,11 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                           id="gender"
                           name="gender"
                           type="radio"
-                          checked={
-                            values.gender.length === 1 &&
-                            values.gender[0] === "Male"
-                          }
-                          onChange={() => setFieldValue("gender", ["Male"])}
+                          checked={values.gender === "Male"}
+                          onChange={() => setFieldValue("gender", "Male")}
                         />
                         <label className="w-full ml-2 text-sm text-gray-900 ">
-                          Male
+                          Only Male
                         </label>
                       </div>
                       <div>
@@ -232,14 +226,11 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                           id="gender"
                           name="gender"
                           type="radio"
-                          checked={
-                            values.gender.length === 1 &&
-                            values.gender[0] === "Female"
-                          }
-                          onChange={() => setFieldValue("gender", ["Female"])}
+                          checked={values.gender === "Female"}
+                          onChange={() => setFieldValue("gender", "Female")}
                         />
                         <label className="w-full ml-2 text-sm text-gray-900 ">
-                          Female
+                          Only Female
                         </label>
                       </div>
                     </div>

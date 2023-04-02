@@ -18,7 +18,7 @@ export const createTutorRequest = async ({
   contactInfo: { email: string };
   postalCode: string;
   region: string;
-  gender: string[];
+  gender: string;
   level: string;
   levelCategory: string;
   subjects: string[];
