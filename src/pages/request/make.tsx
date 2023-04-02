@@ -17,6 +17,8 @@ import {
 } from "@/utils/options/subjects";
 import { regionOptions } from "@/utils/options/regions";
 import { toast } from "react-hot-toast";
+import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
+import { Tooltip } from "react-tooltip";
 
 const MakeTutorRequest: NextPageWithLayout = () => {
   const router = useRouter();
@@ -28,77 +30,78 @@ const MakeTutorRequest: NextPageWithLayout = () => {
   const [clientLink, setClientLink] = useState(
     `${origin}/request/client-view/c0ugn0lex2l1w`
   );
-  const formik = useFormik<{
-    // types so that i can use .include
-    // customer fields
-    name: string;
-    contactInfo: {
-      email: string;
-    };
-    postalCode: string;
-    region: string;
-
-    // tutor fields
-    level: string;
-    subjects: string[];
-    gender: string[];
-    type: string[];
-    pricing: { rate: string; rateOption: string };
-    availability: string;
-    description: string;
-  }>({
-    initialValues: {
-      name: "",
+  const { values, setFieldValue, handleSubmit, handleChange, isSubmitting } =
+    useFormik<{
+      // types so that i can use .include
+      // customer fields
+      name: string;
       contactInfo: {
-        email: "",
+        email: string;
+      };
+      postalCode: string;
+      region: string;
+
+      // tutor fields
+      level: string;
+      subjects: string[];
+      gender: string[];
+      type: string[];
+      pricing: { rate: string; rateOption: string };
+      availability: string;
+      description: string;
+    }>({
+      initialValues: {
+        name: "",
+        contactInfo: {
+          email: "",
+        },
+        postalCode: "",
+        region: "",
+        level: "",
+        subjects: [],
+        gender: [],
+        type: [],
+        pricing: { rate: "", rateOption: "" },
+        availability: "",
+        description: "",
       },
-      postalCode: "",
-      region: "",
-      level: "",
-      subjects: [],
-      gender: [],
-      type: [],
-      pricing: { rate: "", rateOption: "" },
-      availability: "",
-      description: "",
-    },
-    onSubmit: async (values) => {
-      if (
-        !values.name ||
-        !values.contactInfo.email ||
-        !values.region ||
-        !values.level ||
-        values.subjects.length === 0 ||
-        values.gender.length === 0 ||
-        values.type.length === 0 ||
-        !values.pricing.rateOption ||
-        !values.availability
-      ) {
-        toast.error("Missing fields");
-        return;
-      }
-      try {
-        const data = await createTutorRequest({
-          levelCategory: levelToLevelCategory(values.level),
-          ...values,
-        });
-        setClientLink(
-          `${origin}/request/client-view/${data.clientAccessToken}`
-        );
-        setOpenModal(true);
-      } catch (e) {
-        alert("could not make request");
-      }
-    },
-  });
+      onSubmit: async (values) => {
+        if (
+          !values.name ||
+          !values.contactInfo.email ||
+          !values.region ||
+          !values.level ||
+          values.subjects.length === 0 ||
+          values.gender.length === 0 ||
+          values.type.length === 0 ||
+          !values.pricing.rateOption ||
+          !values.availability
+        ) {
+          toast.error("Missing fields");
+          return;
+        }
+        try {
+          const data = await createTutorRequest({
+            levelCategory: levelToLevelCategory(values.level),
+            ...values,
+          });
+          setClientLink(
+            `${origin}/request/client-view/${data.clientAccessToken}`
+          );
+          setOpenModal(true);
+        } catch (e) {
+          alert("could not make request");
+        }
+      },
+    });
 
   useEffect(() => {
     if (router.query.prefill && JSON.parse(router.query.prefill as string)) {
       const prefill = JSON.parse(router.query.prefill as string);
-      formik.setFieldValue("level", prefill.level);
-      formik.setFieldValue("subjects", prefill.subjects);
+      setFieldValue("level", prefill.level);
+      setFieldValue("subjects", prefill.subjects);
     }
-  }, [router]);
+  }, [router, setFieldValue]);
 
   return (
     <div className="px-4 pt-4 sm:px-6">
@@ -110,10 +113,23 @@ const MakeTutorRequest: NextPageWithLayout = () => {
         open={openModal}
         setOpen={setOpenModal}
       />
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="min-w-0 flex-1">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-            Tutor request
+          <h2 className="flex items-center space-x-2">
+            <div className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+              Tutor request
+            </div>
+            <ExclamationTriangleIcon
+              data-tooltip-id="warning"
+              className="w-6 h-6 text-yellow-400"
+            />
+            <Tooltip id="warning" place="right" variant="warning">
+              We are a new service so we cannot guarantee a satisfactory number
+              of applicants.
+              <br />
+              Please browse tutors at the marketplace if you do not receive
+              applicants.
+            </Tooltip>
           </h2>
         </div>
         <div className="mt-6">
@@ -141,12 +157,12 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       name="level"
                       options={levelOptions}
                       onChange={(value: any) => {
-                        formik.setFieldValue("level", value ? value.value : "");
-                        formik.setFieldValue("subjects", []);
+                        setFieldValue("level", value ? value.value : "");
+                        setFieldValue("subjects", []);
                       }}
                       value={{
-                        label: formik.values.level,
-                        value: formik.values.level,
+                        label: values.level,
+                        value: values.level,
                       }}
                     />
                   </div>
@@ -160,17 +176,17 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       isMulti
                       name="subjects"
                       onChange={(value: any) => {
-                        formik.setFieldValue(
+                        setFieldValue(
                           "subjects",
                           value.map((x: any) => x.value)
                         );
                       }}
-                      value={formik.values.subjects.map((x) => ({
+                      value={values.subjects.map((x) => ({
                         value: x,
                         label: x,
                       }))}
-                      isDisabled={!formik.values.level}
-                      options={getSubjectOptions(formik.values.level)}
+                      isDisabled={!values.level}
+                      options={getSubjectOptions(values.level)}
                     />
                     <p className="mt-2 text-sm text-gray-500">
                       You can also create new options that are not listed.
@@ -187,9 +203,9 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                           id="gender"
                           name="gender"
                           type="radio"
-                          checked={formik.values.gender.length === 2}
+                          checked={values.gender.length === 2}
                           onChange={(e) =>
-                            formik.setFieldValue("gender", ["Male", "Female"])
+                            setFieldValue("gender", ["Male", "Female"])
                           }
                         />
                         <label className="w-full ml-2 text-sm text-gray-900 ">
@@ -202,12 +218,10 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                           name="gender"
                           type="radio"
                           checked={
-                            formik.values.gender.length === 1 &&
-                            formik.values.gender[0] === "Male"
+                            values.gender.length === 1 &&
+                            values.gender[0] === "Male"
                           }
-                          onChange={() =>
-                            formik.setFieldValue("gender", ["Male"])
-                          }
+                          onChange={() => setFieldValue("gender", ["Male"])}
                         />
                         <label className="w-full ml-2 text-sm text-gray-900 ">
                           Male
@@ -219,12 +233,10 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                           name="gender"
                           type="radio"
                           checked={
-                            formik.values.gender.length === 1 &&
-                            formik.values.gender[0] === "Female"
+                            values.gender.length === 1 &&
+                            values.gender[0] === "Female"
                           }
-                          onChange={() =>
-                            formik.setFieldValue("gender", ["Female"])
-                          }
+                          onChange={() => setFieldValue("gender", ["Female"])}
                         />
                         <label className="w-full ml-2 text-sm text-gray-900 ">
                           Female
@@ -240,9 +252,9 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       <div>
                         <input
                           type="checkbox"
-                          checked={formik.values.type.length === 3}
+                          checked={values.type.length === 3}
                           onChange={(e) =>
-                            formik.setFieldValue(
+                            setFieldValue(
                               "type",
                               e.target.checked ? Object.values(TutorType) : []
                             )
@@ -256,11 +268,9 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                         <input
                           type="checkbox"
                           name="type"
-                          onChange={formik.handleChange}
+                          onChange={handleChange}
                           value={TutorType.PartTime}
-                          checked={formik.values.type.includes(
-                            TutorType.PartTime
-                          )}
+                          checked={values.type.includes(TutorType.PartTime)}
                         />
                         <label className="w-full ml-2 text-sm text-gray-900 ">
                           {TutorType.PartTime}
@@ -270,11 +280,9 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                         <input
                           type="checkbox"
                           name="type"
-                          onChange={formik.handleChange}
+                          onChange={handleChange}
                           value={TutorType.FullTime}
-                          checked={formik.values.type.includes(
-                            TutorType.FullTime
-                          )}
+                          checked={values.type.includes(TutorType.FullTime)}
                         />
                         <label className="w-full ml-2 text-sm text-gray-900 ">
                           {TutorType.FullTime}
@@ -284,9 +292,9 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                         <input
                           type="checkbox"
                           name="type"
-                          onChange={formik.handleChange}
+                          onChange={handleChange}
                           value={TutorType.MOE}
-                          checked={formik.values.type.includes(TutorType.MOE)}
+                          checked={values.type.includes(TutorType.MOE)}
                         />
                         <label className="w-full ml-2 text-sm text-gray-900 ">
                           {TutorType.MOE}
@@ -314,18 +322,18 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                           })
                         )}
                         onChange={(value: any) => {
-                          formik.setFieldValue(
+                          setFieldValue(
                             "pricing.rateOption",
                             value ? value.value : ""
                           );
                         }}
                         value={{
-                          label: formik.values.pricing.rateOption,
-                          value: formik.values.pricing.rateOption,
+                          label: values.pricing.rateOption,
+                          value: values.pricing.rateOption,
                         }}
                       />
                     </div>
-                    {formik.values.pricing.rateOption === RateOptions.Max && (
+                    {values.pricing.rateOption === RateOptions.Max && (
                       <div className="flex items-center mt-2">
                         <span className="text-sm text-gray-900 mr-2">
                           Max rate: $
@@ -335,8 +343,8 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                           id="pricing.rate"
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none block p-2.5 mr-2"
                           placeholder="0.00"
-                          onChange={formik.handleChange}
-                          value={formik.values.pricing.rate}
+                          onChange={handleChange}
+                          value={values.pricing.rate}
                         />
                         <span className="text-sm text-gray-900">/ hr</span>
                       </div>
@@ -352,8 +360,8 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       id="availability"
                       rows={2}
                       placeholder="Available on weekdays after 3pm."
-                      onChange={formik.handleChange}
-                      value={formik.values.availability}
+                      onChange={handleChange}
+                      value={values.availability}
                     />
                   </div>
 
@@ -366,8 +374,8 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       id="description"
                       rows={3}
                       placeholder="For any other information."
-                      onChange={formik.handleChange}
-                      value={formik.values.description}
+                      onChange={handleChange}
+                      value={values.description}
                     />
                   </div>
                 </div>
@@ -406,8 +414,8 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       type="text"
                       id="name"
                       className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:indigo-blue-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
-                      onChange={formik.handleChange}
-                      value={formik.values.name}
+                      onChange={handleChange}
+                      value={values.name}
                       required
                     />
                   </div>
@@ -419,8 +427,8 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       type="email"
                       id="contactInfo.email"
                       className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:indigo-blue-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
-                      onChange={formik.handleChange}
-                      value={formik.values.contactInfo.email}
+                      onChange={handleChange}
+                      value={values.contactInfo.email}
                       required
                     />
                   </div>
@@ -433,13 +441,13 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       id="postalCode"
                       className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:indigo-blue-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
                       onChange={(e) => {
-                        formik.setFieldValue("postalCode", e.target.value);
-                        formik.setFieldValue(
+                        setFieldValue("postalCode", e.target.value);
+                        setFieldValue(
                           "region",
                           postalCodeToRegion(e.target.value)
                         );
                       }}
-                      value={formik.values.postalCode}
+                      value={values.postalCode}
                       required
                     /> 
                   </div>*/}
@@ -453,14 +461,11 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       name="region"
                       options={regionOptions}
                       onChange={(value: any) => {
-                        formik.setFieldValue(
-                          "region",
-                          value ? value.value : ""
-                        );
+                        setFieldValue("region", value ? value.value : "");
                       }}
                       value={{
-                        label: formik.values.region,
-                        value: formik.values.region,
+                        label: values.region,
+                        value: values.region,
                       }}
                     />
                     <p className="mt-2 text-sm text-gray-500">
@@ -639,7 +644,7 @@ const MakeTutorRequest: NextPageWithLayout = () => {
           </div>
         )}
         <div className="mb-4">
-          {formik.isSubmitting ? (
+          {isSubmitting ? (
             <div className="text-center">
               <button
                 disabled

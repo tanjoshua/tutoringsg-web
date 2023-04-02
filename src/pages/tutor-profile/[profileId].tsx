@@ -83,14 +83,14 @@ const TutorProfile: NextPageWithLayout = () => {
           profileId={profile.id}
         />
         <div className="lg:flex lg:items-center lg:justify-between px-4 py-5 sm:px-6 space-y-4 lg:space-x-6">
-          <div className="flex-shrink-0 overflow-hidden rounded-md">
+          <div className="relative flex-shrink-0 overflow-hidden rounded-md h-40 w-40 lg:h-52 lg:w-52">
             <Image
               alt="profile picture"
               src={
                 profile.profilePic?.location ||
                 "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
               }
-              className="h-40 w-40 lg:h-52 lg:w-52"
+              fill
             />
           </div>
           <div className="min-w-0 flex-1">

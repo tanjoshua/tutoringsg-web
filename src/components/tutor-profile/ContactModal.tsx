@@ -32,7 +32,7 @@ export default function ContactModal({
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const cancelButtonRef = useRef(null);
-  const formik = useFormik({
+  const { values, setValues, handleChange, handleSubmit } = useFormik({
     initialValues: {
       name: "",
       email: "",
@@ -51,13 +51,13 @@ export default function ContactModal({
   });
 
   useEffect(() => {
-    formik.setValues({
+    setValues({
       name: prefill?.name ? prefill.name : "",
       email: prefill?.email ? prefill.email : "",
       phoneNumber: prefill?.phoneNumber ? prefill.phoneNumber : "",
       message: prefill?.message ? prefill.message : "",
     });
-  }, [contactInfo]);
+  }, [contactInfo, setValues, prefill]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -174,10 +174,7 @@ export default function ContactModal({
                     <div className="flex-grow border-t md:border-l flex-1"></div>
                   </div>
                   <div>
-                    <form
-                      className="mt-2 md:mt-0"
-                      onSubmit={formik.handleSubmit}
-                    >
+                    <form className="mt-2 md:mt-0" onSubmit={handleSubmit}>
                       <div className="grid grid-cols-1 gap-y-4 gap-x-4 sm:grid-cols-2">
                         <div className="sm:col-span-2">
                           <label
@@ -191,8 +188,8 @@ export default function ContactModal({
                               type="text"
                               name="name"
                               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:indigo-blue-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
-                              onChange={formik.handleChange}
-                              value={formik.values.name}
+                              onChange={handleChange}
+                              value={values.name}
                               required
                             />
                           </div>
@@ -210,8 +207,8 @@ export default function ContactModal({
                               name="email"
                               autoComplete="email"
                               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:indigo-blue-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
-                              onChange={formik.handleChange}
-                              value={formik.values.email}
+                              onChange={handleChange}
+                              value={values.email}
                               required
                             />
                           </div>
@@ -228,8 +225,8 @@ export default function ContactModal({
                               type="tel"
                               name="phoneNumber"
                               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:indigo-blue-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
-                              onChange={formik.handleChange}
-                              value={formik.values.phoneNumber}
+                              onChange={handleChange}
+                              value={values.phoneNumber}
                             />
                           </div>
                         </div>
@@ -248,9 +245,9 @@ export default function ContactModal({
                               name="message"
                               rows={4}
                               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:indigo-blue-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
-                              onChange={formik.handleChange}
+                              onChange={handleChange}
                               placeholder="eg. Indicate your availability for the first lesson"
-                              value={formik.values.message}
+                              value={values.message}
                             />
                           </div>
                         </div>

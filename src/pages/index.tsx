@@ -206,7 +206,7 @@ const Home: NextPageWithLayout = () => {
                           });
                         }}
                       >
-                        Publish request
+                        Make request
                       </button>
                     </div>
                   </div>

@@ -190,6 +190,7 @@ const Navbar = () => {
                                   await logout();
                                   queryClient.refetchQueries("me");
                                   toast.success("Logged out");
+                                  router.push("/");
                                 }}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",

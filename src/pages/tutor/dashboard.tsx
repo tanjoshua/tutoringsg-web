@@ -73,7 +73,7 @@ const TutorProfile: NextPageWithLayout = () => {
     limit: 10,
   });
   useEffect(() => {
-    setPaginationQuery({ ...paginationQuery, page: 1 });
+    setPaginationQuery((value) => ({ ...value, page: 1 }));
   }, [filters]);
   const [appliedPaginationQuery, setAppliedPaginationQuery] = useState({
     page: 1,
@@ -105,14 +105,14 @@ const TutorProfile: NextPageWithLayout = () => {
   } = useQuery("userTutorProfile", getUserTutorProfile);
   useEffect(() => {
     if (tutorProfileData?.profile) {
-      setFilters({
-        ...filters,
+      setFilters((oldFilters) => ({
+        ...oldFilters,
         region: tutorProfileData.profile.regions,
         gender: tutorProfileData.profile.gender,
         type: [tutorProfileData.profile.type],
         levelCategories: tutorProfileData.profile.levels,
         subjects: tutorProfileData.profile.subjects,
-      });
+      }));
     }
   }, [tutorProfileData]);
 
