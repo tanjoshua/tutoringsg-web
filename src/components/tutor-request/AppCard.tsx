@@ -9,6 +9,7 @@ import { updateTutorApplicationState } from "@/services/tutorRequest";
 import { ApplicationState } from "@/utils/enums";
 import { PhoneIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
+import { Tooltip } from "react-tooltip";
 
 interface TutorProfile {
   id: string;
@@ -43,7 +44,7 @@ export default function AppCard({
   // normal version
   return (
     <li className="flex py-6">
-      <div className="h-24 w-24 md:h-32 md:w-32 flex-shrink-0 overflow-hidden rounded-md ">
+      <div className="relative h-24 w-24 md:h-32 md:w-32 flex-shrink-0 overflow-hidden rounded-md ">
         <Image
           src={
             tutorProfile.profilePic?.location ||
@@ -51,6 +52,7 @@ export default function AppCard({
           }
           className="h-full w-full object-cover object-center"
           alt="profile picture"
+          fill
         />
       </div>
 
@@ -62,25 +64,25 @@ export default function AppCard({
               {normal && (
                 <button
                   className="rounded-md transititext-primary"
-                  data-te-toggle="tooltip"
-                  title="Hide"
+                  data-tooltip-id="hide"
                   onClick={() => {
                     updateState(id, ApplicationState.Hidden);
                   }}
                 >
                   <EyeSlashIcon className="h-6 w-6 text-indigo-600 hover:text-indigo-500" />
+                  <Tooltip id="hide">Hide</Tooltip>
                 </button>
               )}
               {hidden && (
                 <button
                   className="rounded-md transititext-primary"
-                  data-te-toggle="tooltip"
-                  title="Unhide"
+                  data-tooltip-id="unhide"
                   onClick={() => {
                     updateState(id, ApplicationState.Pending);
                   }}
                 >
                   <EyeIcon className="h-6 w-6 text-indigo-600 hover:text-indigo-500" />
+                  <Tooltip id="unhide">Unhide</Tooltip>
                 </button>
               )}
             </div>

@@ -17,6 +17,8 @@ import {
 } from "@/utils/options/subjects";
 import { regionOptions } from "@/utils/options/regions";
 import { toast } from "react-hot-toast";
+import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
+import { Tooltip } from "react-tooltip";
 
 const MakeTutorRequest: NextPageWithLayout = () => {
   const router = useRouter();
@@ -113,8 +115,21 @@ const MakeTutorRequest: NextPageWithLayout = () => {
       />
       <form onSubmit={handleSubmit}>
         <div className="min-w-0 flex-1">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-            Tutor request
+          <h2 className="flex items-center space-x-2">
+            <div className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+              Tutor request
+            </div>
+            <ExclamationTriangleIcon
+              data-tooltip-id="warning"
+              className="w-6 h-6 text-yellow-400"
+            />
+            <Tooltip id="warning" place="right" variant="warning">
+              We are a new service so we cannot guarantee a satisfactory number
+              of applicants.
+              <br />
+              Please browse tutors at the marketplace if you do not receive
+              applicants.
+            </Tooltip>
           </h2>
         </div>
         <div className="mt-6">
