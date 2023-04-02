@@ -24,6 +24,7 @@ import { RedirectIfNotLoggedIn } from "@/utils/redirect";
 import UploadProfilePicModal from "@/components/tutor-profile/UploadProfilePicModal";
 import Link from "next/link";
 import Image from "next/image";
+import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
 
 const YourProfile: NextPageWithLayout = () => {
   RedirectIfNotLoggedIn();
@@ -45,6 +46,7 @@ const YourProfile: NextPageWithLayout = () => {
 
   if (data.profile) {
     const profile = data.profile;
+    const profileLink = `${origin}/tutor-profile/${profile.urlId}`;
 
     // profile exists
     return (
@@ -57,6 +59,50 @@ const YourProfile: NextPageWithLayout = () => {
           setOpen={setUploadModalIsOpen}
           refetch={refetch}
         />
+        <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 ">
+          <div
+            className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
+            aria-hidden="true"
+          >
+            <div
+              className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
+              style={{
+                clipPath:
+                  "polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)",
+              }}
+            />
+          </div>
+          <div
+            className="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
+            aria-hidden="true"
+          >
+            <div
+              className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
+              style={{
+                clipPath:
+                  "polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)",
+              }}
+            />
+          </div>
+          <div className="">
+            Visit your online profile at{" "}
+            <Link
+              href={profileLink}
+              target="_blank"
+              className="hidden md:inline-block underline"
+            >
+              {profileLink}
+            </Link>
+            <Link
+              href={profileLink}
+              target="_blank"
+              className="md:hidden underline"
+            >
+              this link
+            </Link>
+            . Copy this link and share it with others!
+          </div>
+        </div>
         <div className="lg:flex lg:items-center lg:justify-between px-4 py-5 sm:px-6">
           <div className="min-w-0 flex-1 lg:flex lg:items-center space-y-4 lg:space-x-6">
             <div
@@ -151,7 +197,7 @@ const YourProfile: NextPageWithLayout = () => {
                 Share
               </button>
               <ShareModal
-                link={`${origin}/tutor-profile/${profile.id}`}
+                link={profileLink}
                 open={shareModalIsOpen}
                 setOpen={setShareModalIsOpen}
               />

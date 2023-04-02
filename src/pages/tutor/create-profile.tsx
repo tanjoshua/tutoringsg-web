@@ -23,6 +23,9 @@ import {
 import { LevelCategories, levelCategoryOptions } from "@/utils/options/levels";
 import { regionOptions } from "@/utils/options/regions";
 import { RedirectIfNotLoggedIn } from "@/utils/redirect";
+import uniqid from "uniqid";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const tutorTypes = [
   "Part-Time Tutor",
@@ -42,6 +45,7 @@ type InitialValue = {
   description: string;
   pricing: { rate: string; details: string };
   contactInfo: { phoneNumber: string; email: string; telegram: string };
+  urlId: string;
 };
 const initialValues = {
   isPublic: false,
@@ -56,6 +60,7 @@ const initialValues = {
   description: "",
   pricing: { rate: "", details: "" },
   contactInfo: { phoneNumber: "", email: "", telegram: "" },
+  urlId: uniqid(),
 };
 
 const CreateProfile: NextPageWithLayout = () => {
@@ -69,10 +74,20 @@ const CreateProfile: NextPageWithLayout = () => {
     initialValues: initialValues,
     onSubmit: async (values) => {
       try {
+        console.log("sending");
         await createTutorProfile(values);
+        console.log("sent");
         router.push("/tutor/your-profile");
-      } catch (e) {
-        alert("could not create profile");
+        toast.success("Profile created");
+      } catch (error) {
+        console.log(error);
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 409) {
+            toast.error("URL already exists");
+          } else {
+            toast.error("Error creating profile");
+          }
+        }
       }
     },
   });
@@ -388,6 +403,39 @@ const CreateProfile: NextPageWithLayout = () => {
           </div>
           <p className="mt-2 text-sm text-gray-500">
             Let potential customers contact you
+          </p>
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2 font-medium text-gray-900">
+            Shareable profile URL
+          </label>
+          <div
+            className="text-sm underline text-indigo-500 cursor-pointer"
+            onClick={() => {
+              formik.setFieldValue(
+                "urlId",
+                uniqid(formik.values.tutorName.split(" ")[0].toLowerCase())
+              );
+            }}
+          >
+            Generate random id
+          </div>
+          <div className="flex flex-row items-center mb-2">
+            <div className="text-sm text-gray-900 mr-2">
+              {process.env.WEB_URL}/
+            </div>
+            <input
+              id="urlId"
+              className="mr-2 max-w-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none block p-2.5 w-full"
+              onChange={formik.handleChange}
+              value={formik.values.urlId}
+              required
+              maxLength={20}
+            />
+          </div>
+
+          <p className="mt-2 text-sm text-gray-500">
+            You can share this link with others to let them view your profile.
           </p>
         </div>
         <div className="mb-4">
