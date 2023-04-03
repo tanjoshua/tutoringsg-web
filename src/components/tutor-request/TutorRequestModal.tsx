@@ -165,7 +165,11 @@ export default function TutorRequestModal({
                           Student location
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                          {tutorRequest.region} region
+                          {tutorRequest.region}
+                          <br />
+                          {tutorRequest.address
+                            ? `Address: ${tutorRequest.address}`
+                            : "Address was not provided"}
                         </dd>
                       </div>
                       <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

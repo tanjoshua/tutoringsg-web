@@ -243,11 +243,12 @@ export default function ContactModal({
                           <div className="mt-2.5">
                             <textarea
                               name="message"
-                              rows={4}
+                              rows={5}
                               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:indigo-blue-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
                               onChange={handleChange}
                               placeholder="eg. Indicate your availability for the first lesson"
                               value={values.message}
+                              maxLength={10000}
                             />
                           </div>
                         </div>

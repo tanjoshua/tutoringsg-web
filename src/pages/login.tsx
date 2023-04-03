@@ -46,9 +46,9 @@ const Login: NextPageWithLayout = () => {
     const credential = response.credential;
     if (credential) {
       try {
-        await googleLogin({ credential });
+        const data = await googleLogin({ credential });
         queryClient.refetchQueries("me");
-        toast.success("Logged in");
+        toast.success(data.message);
       } catch {
         toast.error("Couldn't log in");
       }

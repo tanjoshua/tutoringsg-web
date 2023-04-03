@@ -48,6 +48,7 @@ const MakeTutorRequest: NextPageWithLayout = () => {
       pricing: { rate: string; rateOption: string };
       availability: string;
       description: string;
+      address: string;
     }>({
       initialValues: {
         name: "",
@@ -62,6 +63,7 @@ const MakeTutorRequest: NextPageWithLayout = () => {
         pricing: { rate: "", rateOption: "" },
         availability: "",
         description: "",
+        address: "",
       },
       onSubmit: async (values) => {
         if (
@@ -340,10 +342,11 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                     <textarea
                       className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-indigo-600 focus:outline-none"
                       id="availability"
-                      rows={2}
+                      rows={3}
                       placeholder="Available on weekdays after 3pm."
                       onChange={handleChange}
                       value={values.availability}
+                      maxLength={1000}
                     />
                   </div>
 
@@ -358,6 +361,7 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       placeholder="For any other information."
                       onChange={handleChange}
                       value={values.description}
+                      maxLength={1000}
                     />
                   </div>
                 </div>
@@ -380,8 +384,8 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                   Your information
                 </h3>
                 <p className="mt-1 text-sm text-gray-600">
-                  Tell us more about yourself so that we can find the best tutor
-                  for you.
+                  Your email will not be shared with any tutors unless you reach
+                  out to a tutor via a contact form.
                 </p>
               </div>
             </div>
@@ -435,7 +439,7 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                   </div>*/}
                   <div>
                     <label className="block mb-2 font-medium text-gray-900">
-                      Region
+                      Region / Online tuition
                     </label>
                     <Select
                       required
@@ -450,8 +454,21 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                         value: values.region,
                       }}
                     />
+                    <p className="mt-2 text-sm text-gray-500">Select region</p>
+                  </div>
+
+                  <div>
+                    <label className="block mb-2 font-medium text-gray-900">
+                      Address (optional)
+                    </label>
+                    <input
+                      id="address"
+                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:indigo-blue-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
+                      onChange={handleChange}
+                      value={values.address}
+                    />
                     <p className="mt-2 text-sm text-gray-500">
-                      Online tuition only (for now)
+                      Be as vague or as specific as you like
                     </p>
                   </div>
                 </div>

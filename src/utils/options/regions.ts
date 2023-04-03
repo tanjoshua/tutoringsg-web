@@ -10,5 +10,4 @@ export enum Region {
 export const regionOptions = Object.values(Region).map((value) => ({
   label: value,
   value,
-  isDisabled: value !== Region.Online,
 }));

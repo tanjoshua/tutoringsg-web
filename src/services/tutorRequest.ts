@@ -12,6 +12,7 @@ export const createTutorRequest = async ({
   pricing,
   availability,
   description,
+  address,
 }: {
   name: string;
   contactInfo: { email: string };
@@ -27,6 +28,7 @@ export const createTutorRequest = async ({
   };
   availability: string;
   description: string;
+  address: string;
 }) => {
   const result = await instance.post("/tutor/request", {
     name,
@@ -40,6 +42,7 @@ export const createTutorRequest = async ({
     pricing,
     availability,
     description,
+    address,
   });
 
   return result.data;
