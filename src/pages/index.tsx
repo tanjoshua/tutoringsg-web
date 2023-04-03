@@ -132,7 +132,7 @@ const Home: NextPageWithLayout = () => {
                 </div>
               </div>
             </div>
-            <div className="relative my-8 lg:my-16 lg:mt-8 flex justify-center items-center mx-auto">
+            <div className="relative my-8 lg:my-16 lg:mt-8 self-center mx-auto">
               <div className="rounded-3xl px-8 lg:px-16 py-8 bg-gray-800 shadow-2xl">
                 <h2 className="text-lg md:text-2xl font-bold tracking-tight text-white">
                   What are you looking for?

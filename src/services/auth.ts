@@ -22,8 +22,9 @@ export const login = ({
   return instance.post("/base/auth/login", { email, password });
 };
 
-export const googleLogin = ({ credential }: { credential: string }) => {
-  return instance.post("/base/auth/googleLogin", { credential });
+export const googleLogin = async ({ credential }: { credential: string }) => {
+  const result = await instance.post("/base/auth/googleLogin", { credential });
+  return result.data;
 };
 
 export const googleRegister = ({ credential }: { credential: string }) => {

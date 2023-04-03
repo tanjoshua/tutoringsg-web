@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { classNames } from "@/utils/helpers";
 import { UserIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
+import { Tooltip } from "react-tooltip";
 
 const Navbar = () => {
   const router = useRouter();
@@ -212,20 +213,61 @@ const Navbar = () => {
                       </Transition>
                     </Menu>
                   ) : (
-                    <Link
-                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm"
-                      href="/login"
-                    >
-                      <div className="hidden md:block">
-                        Tutor log in <span aria-hidden="true">&rarr;</span>
+                    <Menu as="div" className="relative ml-3">
+                      <div>
+                        <Menu.Button className="p-1 bg-gray-800 text-gray-400 hover:text-white">
+                          Log In <span aria-hidden="true">&rarr;</span>
+                        </Menu.Button>
                       </div>
-                      <div className="md:hidden">
-                        <ArrowRightOnRectangleIcon
-                          className="h-6 w-6"
-                          aria-hidden="true"
-                        />
-                      </div>
-                    </Link>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link
+                                href="/login"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Tutor Login
+                              </Link>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <>
+                                <Link
+                                  data-tooltip-id="comingsoon"
+                                  href="#"
+                                  className={classNames(
+                                    active ? "bg-gray-100" : "",
+                                    "block px-4 py-2 text-sm text-gray-300"
+                                  )}
+                                >
+                                  Client Login (soon!)
+                                </Link>
+                                <Tooltip
+                                  id="comingsoon"
+                                  variant="warning"
+                                  place="left"
+                                >
+                                  Coming soon!
+                                </Tooltip>
+                              </>
+                            )}
+                          </Menu.Item>
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
                   ))}
               </div>
             </div>
