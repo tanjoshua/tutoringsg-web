@@ -12,6 +12,7 @@ import Image from "next/image";
 import { Tooltip } from "react-tooltip";
 
 interface TutorProfile {
+  _id: string;
   id: string;
   title: string;
   tutorName: string;
@@ -109,7 +110,7 @@ export default function AppCard({
               onClick={() => {
                 showContact({
                   ...tutorProfile.contactInfo,
-                  profileId: tutorProfile.id,
+                  profileId: tutorProfile.id || tutorProfile._id, // TODO: THIS IS A TEMP FIX
                 });
               }}
               data-te-toggle="tooltip"

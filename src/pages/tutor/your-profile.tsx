@@ -293,6 +293,9 @@ const YourProfile: NextPageWithLayout = () => {
     // profile does not exist
     return (
       <div className="relative px-6 lg:px-8">
+        <Head>
+          <title>Welcome to tutoring.sg!</title>
+        </Head>
         <div className="mx-auto max-w-4xl py-20 ">
           <div className="text-center">
             <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900">
