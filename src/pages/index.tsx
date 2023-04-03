@@ -24,18 +24,19 @@ const Home: NextPageWithLayout = () => {
   const router = useRouter();
   const formik = useFormik<{
     level: { value: string; label: string } | null;
-    subjects: string[];
+    subject: { value: string; label: string } | null;
   }>({
     initialValues: {
       level: null,
-      subjects: [],
+      subject: null,
     },
     onSubmit: (values) => {
       if (values.level) {
         // if value
         const levelCategory = levelToLevelCategory(values.level!.value);
         const subjects: any = {};
-        subjects[levelCategory] = values.subjects;
+        subjects[levelCategory] = values.subject ? [values.subject.value] : [];
+        console.log(subjects);
         router.push({
           pathname: "/browse",
           query: {
@@ -148,7 +149,7 @@ const Home: NextPageWithLayout = () => {
                         name="level"
                         onChange={(value: any) => {
                           formik.setFieldValue("level", value);
-                          formik.setFieldValue("subjects", []);
+                          formik.setFieldValue("subject", null);
                         }}
                         value={formik.values.level}
                         placeholder="Select level"
@@ -156,30 +157,23 @@ const Home: NextPageWithLayout = () => {
                     </div>
                     <div className="">
                       <label className="block mb-2 font-medium text-white">
-                        Subject(s)
+                        Subject
                       </label>
                       <Select
-                        isMulti
                         isClearable
                         options={levelCategoryToSubjectOptions(
                           levelToLevelCategory(formik.values.level?.value!)
                         )}
-                        name="subjects"
+                        name="subject"
                         onChange={(value: any) => {
-                          formik.setFieldValue(
-                            "subjects",
-                            value.map((x: any) => x.value)
-                          );
+                          formik.setFieldValue("subject", value);
                         }}
-                        value={formik.values.subjects.map((x) => ({
-                          value: x,
-                          label: x,
-                        }))}
+                        value={formik.values.subject}
                         isDisabled={!formik.values.level}
                         placeholder={
                           !formik.values.level
                             ? "Select a level first"
-                            : "Multiple subjects allowed"
+                            : "Select a subject"
                         }
                       />
                     </div>
@@ -199,8 +193,8 @@ const Home: NextPageWithLayout = () => {
                             pathname: "/request/make",
                             query: {
                               prefill: JSON.stringify({
-                                level: formik.values.level?.value,
-                                subjects: formik.values.subjects,
+                                level: formik.values.level,
+                                subject: formik.values.subject,
                               }),
                             },
                           });

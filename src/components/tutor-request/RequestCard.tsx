@@ -31,7 +31,7 @@ export default function RequestCard({
       <div>
         <div className="flex justify-between text-base font-medium text-gray-900">
           <h3 className="flex items-center">
-            {`${tutorRequest.level}: ${tutorRequest.subjects.join(",")}`}
+            {`${tutorRequest.level}: ${tutorRequest.subject}`}
             {tutorRequest.applied && (
               <ClipboardDocumentCheckIconSolid
                 className="ml-1 h-5 w-5 flex-shrink-0 text-indigo-600 "
