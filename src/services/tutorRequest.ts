@@ -3,12 +3,11 @@ import instance from "./axiosInstance";
 export const createTutorRequest = async ({
   name,
   contactInfo,
-  postalCode,
   region,
   gender,
   level,
   levelCategory,
-  subjects,
+  subject,
   type,
   pricing,
   availability,
@@ -16,12 +15,11 @@ export const createTutorRequest = async ({
 }: {
   name: string;
   contactInfo: { email: string };
-  postalCode: string;
   region: string;
   gender: string;
   level: string;
   levelCategory: string;
-  subjects: string[];
+  subject: string;
   type: string[];
   pricing: {
     rate: string;
@@ -33,12 +31,11 @@ export const createTutorRequest = async ({
   const result = await instance.post("/tutor/request", {
     name,
     contactInfo,
-    postalCode,
     region,
     gender,
     level,
     levelCategory,
-    subjects,
+    subject,
     type,
     pricing,
     availability,
@@ -109,7 +106,7 @@ export const getTutorRequest = async ({ id }: { id: string }) => {
 export const getTutorRequests = async ({
   region,
   gender,
-  levels,
+  levelCategories,
   subjects,
   type,
   sortBy,
@@ -118,7 +115,7 @@ export const getTutorRequests = async ({
 }: {
   region?: string[];
   gender?: string;
-  levels?: string[];
+  levelCategories?: string[];
   subjects?: any;
   type?: string[];
   sortBy?: string;
@@ -128,7 +125,7 @@ export const getTutorRequests = async ({
   const result = await instance.post(`/tutor/getRequests`, {
     region,
     gender,
-    levels,
+    levelCategories,
     subjects,
     type,
     sortBy,

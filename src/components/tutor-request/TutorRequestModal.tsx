@@ -74,9 +74,7 @@ export default function TutorRequestModal({
                   <div className="flex px-4 py-5 sm:px-6">
                     <div className="min-w-0 flex-1">
                       <h2 className="flex-1 text-xl font-bold leading-6 text-gray-900 ">
-                        {`${tutorRequest.level}: ${tutorRequest.subjects?.join(
-                          ", "
-                        )} Tutor Request`}
+                        {`${tutorRequest.level}: ${tutorRequest.subject} Tutor Request`}
                       </h2>
                       <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:space-x-2 ">
                         <div className="flex items-center text-sm text-gray-500">
@@ -128,10 +126,10 @@ export default function TutorRequestModal({
                       </div>
                       <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt className="text-sm font-medium text-gray-700">
-                          Subject(s)
+                          Subject
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                          {tutorRequest.subjects?.join(", ")}
+                          {tutorRequest.subject}
                         </dd>
                       </div>
                       <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

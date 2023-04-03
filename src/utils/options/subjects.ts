@@ -14,13 +14,15 @@ const PrimarySubjects = [
   "Chinese",
   "Malay",
   "Tamil",
-  "Hindi",
 ];
 
 const LowerSecondarySubjects = [
   "English",
   "Math",
   "Science",
+  "Physics",
+  "Chemistry",
+  "Biology",
   "History",
   "Geography",
   "Social Studies",
@@ -28,12 +30,11 @@ const LowerSecondarySubjects = [
   "Chinese",
   "Tamil",
   "Malay",
-  "Hindi",
 ];
 
 const UpperSecondarySubjects = [
   "English",
-  "E Math",
+  "Math",
   "A Math",
   "Science",
   "Physics",
@@ -46,17 +47,25 @@ const UpperSecondarySubjects = [
   "Chinese",
   "Tamil",
   "Malay",
-  "Hindi",
   "Principle of Accounts",
+  "Computing",
+  "Design & Technology",
+  "Electronics",
+  "Food & Consumer",
+  "Art",
+  "Music",
+  "Drama",
 ];
 
 const JCSubjects = [
   "General Paper",
   "Knowledge and Inquiry",
+  "English",
   "Math",
   "Physics",
   "Chemistry",
   "Biology",
+  "Computing",
   "Economics",
   "History",
   "Geography",
@@ -67,7 +76,8 @@ const JCSubjects = [
   "Tamil",
   "Malay",
   "Hindi",
-  "Principle of Accounts",
+  "Management of Business",
+  "Principles of Accounting",
 ];
 
 export const PrimarySubjectOptions = PrimarySubjects.map((subject) => ({

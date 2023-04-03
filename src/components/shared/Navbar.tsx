@@ -19,7 +19,7 @@ import toast from "react-hot-toast";
 const Navbar = () => {
   const router = useRouter();
   const atLoginPage = router.pathname === "/login";
-  const atTutorPortal = router.pathname.startsWith("/tutor");
+  const atTutorPortal = router.pathname.startsWith("/tutor/");
 
   const queryClient = useQueryClient();
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
@@ -78,8 +78,15 @@ const Navbar = () => {
                 <div className="flex flex-shrink-0 items-center">
                   <Link href={atTutorPortal ? "/tutor/your-profile" : "/"}>
                     <div className="text-xl text-white font-sans font-medium tracking-wide border border-white rounded-md px-2 py-1">
-                      tutoring.<span className="text-red-500">sg</span>
-                      {atTutorPortal && <span className="text-sm"> tutor</span>}
+                      {atTutorPortal ? (
+                        <div>
+                          <span className="text-red-500">tutor</span>ing.sg
+                        </div>
+                      ) : (
+                        <div>
+                          tutoring.<span className="text-red-500">sg</span>
+                        </div>
+                      )}
                     </div>
                   </Link>
                 </div>

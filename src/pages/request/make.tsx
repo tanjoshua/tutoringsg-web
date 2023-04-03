@@ -38,12 +38,11 @@ const MakeTutorRequest: NextPageWithLayout = () => {
       contactInfo: {
         email: string;
       };
-      postalCode: string;
       region: string;
 
       // tutor fields
-      level: string;
-      subjects: string[];
+      level: { value: string; label: string } | null;
+      subject: { value: string; label: string } | null;
       gender: string;
       type: string[];
       pricing: { rate: string; rateOption: string };
@@ -55,10 +54,9 @@ const MakeTutorRequest: NextPageWithLayout = () => {
         contactInfo: {
           email: "",
         },
-        postalCode: "",
         region: "",
-        level: "",
-        subjects: [],
+        level: null,
+        subject: null,
         gender: "",
         type: [],
         pricing: { rate: "", rateOption: "" },
@@ -71,7 +69,7 @@ const MakeTutorRequest: NextPageWithLayout = () => {
           !values.contactInfo.email ||
           !values.region ||
           !values.level ||
-          values.subjects.length === 0 ||
+          !values.subject ||
           values.type.length === 0 ||
           !values.pricing.rateOption ||
           !values.availability
@@ -81,8 +79,10 @@ const MakeTutorRequest: NextPageWithLayout = () => {
         }
         try {
           const data = await createTutorRequest({
-            levelCategory: levelToLevelCategory(values.level),
             ...values,
+            levelCategory: levelToLevelCategory(values.level.value),
+            level: values.level.value,
+            subject: values.subject.value,
           });
           setClientLink(
             `${origin}/request/client-view/${data.clientAccessToken}`
@@ -98,7 +98,7 @@ const MakeTutorRequest: NextPageWithLayout = () => {
     if (router.query.prefill && JSON.parse(router.query.prefill as string)) {
       const prefill = JSON.parse(router.query.prefill as string);
       setFieldValue("level", prefill.level);
-      setFieldValue("subjects", prefill.subjects);
+      setFieldValue("subject", prefill.subject);
     }
   }, [router, setFieldValue]);
 
@@ -156,36 +156,27 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       name="level"
                       options={levelOptions}
                       onChange={(value: any) => {
-                        setFieldValue("level", value ? value.value : "");
-                        setFieldValue("subjects", []);
+                        setFieldValue("level", value);
+                        setFieldValue("subjects", null);
                       }}
-                      value={{
-                        label: values.level,
-                        value: values.level,
-                      }}
+                      value={values.level}
                     />
                   </div>
 
                   <div>
                     <label className="block mb-2 font-medium text-gray-900">
-                      Subjects
+                      Subject
                     </label>
-                    <Creatable
+                    <Select
+                      isClearable
                       required
-                      isMulti
-                      name="subjects"
+                      name="subject"
                       onChange={(value: any) => {
-                        setFieldValue(
-                          "subjects",
-                          value.map((x: any) => x.value)
-                        );
+                        setFieldValue("subject", value);
                       }}
-                      value={values.subjects.map((x) => ({
-                        value: x,
-                        label: x,
-                      }))}
+                      value={values.subject}
                       isDisabled={!values.level}
-                      options={getSubjectOptions(values.level)}
+                      options={getSubjectOptions(values.level?.value || "")}
                     />
                     <p className="mt-2 text-sm text-gray-500">
                       You can also create new options that are not listed.
