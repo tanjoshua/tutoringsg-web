@@ -88,6 +88,27 @@ const AccountDetails: NextPageWithLayout = () => {
                 </div>
               )}
             </div>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Account type
+              </label>
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                {data?.user?.isTutor ? "Tutor account" : "Client account"}
+
+                <br />
+                {!data?.user?.isTutor && (
+                  <Link
+                    href="/for-tutors"
+                    className="text-indigo-600 cursor-pointer hover:underline"
+                  >
+                    Become a tutor
+                  </Link>
+                )}
+              </p>
+            </div>
 
             <div>
               <label

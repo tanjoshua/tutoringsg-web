@@ -14,13 +14,34 @@ export const RedirectIfNotLoggedIn = () => {
   }
 };
 
+export const RedirectIfNotTutor = () => {
+  const router = useRouter();
+  const { isLoading, error, data, refetch } = useQuery("me", getMe);
+  const isLoggedIn = !isLoading && !!data?.user;
+  const isTutorAccount = !!data?.user.isTutor;
+
+  if (!isLoading && !error && !isLoggedIn) {
+    router.replace("/login?next=" + router.asPath);
+  }
+
+  if (!isTutorAccount) {
+    router.replace("/for-tutors");
+  }
+};
+
 export const RedirectIfLoggedIn = () => {
   const router = useRouter();
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
   const isLoggedIn = !isLoading && !!data?.user;
+  const redirectToClient =
+    router.pathname === "/login" || router.pathname === "/register";
 
   if (!isLoading && !error && isLoggedIn) {
-    router.replace("/tutor/your-profile");
+    if (redirectToClient) {
+      router.replace("/browse");
+    } else {
+      router.replace("/tutor/your-profile");
+    }
   }
 };
 

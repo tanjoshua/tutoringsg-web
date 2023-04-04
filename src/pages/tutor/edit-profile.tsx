@@ -21,7 +21,7 @@ import {
 } from "@/utils/options/subjects";
 import { LevelCategories, levelCategoryOptions } from "@/utils/options/levels";
 import { regionOptions } from "@/utils/options/regions";
-import { RedirectIfNotLoggedIn } from "@/utils/redirect";
+import { RedirectIfNotTutor } from "@/utils/redirect";
 import uniqid from "uniqid";
 import { CheckCircleIcon, CheckIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
@@ -64,8 +64,8 @@ const initialValues = {
 };
 
 const EditProfile: NextPageWithLayout = () => {
-  RedirectIfNotLoggedIn();
   const router = useRouter();
+  RedirectIfNotTutor();
   const { isLoading, error, data, refetch } = useQuery(
     "userTutorProfile",
     getUserTutorProfile

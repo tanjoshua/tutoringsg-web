@@ -20,19 +20,19 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import ShareModal from "@/components/tutor-profile/ShareModal";
 import { LevelCategories } from "@/utils/options/levels";
-import { RedirectIfNotLoggedIn } from "@/utils/redirect";
+import { RedirectIfNotLoggedIn, RedirectIfNotTutor } from "@/utils/redirect";
 import UploadProfilePicModal from "@/components/tutor-profile/UploadProfilePicModal";
 import Link from "next/link";
 import Image from "next/image";
 import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
 
 const YourProfile: NextPageWithLayout = () => {
-  RedirectIfNotLoggedIn();
   const origin =
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
       : ""; // getting hostname for shareable link
   const router = useRouter();
+  RedirectIfNotTutor();
   const { isLoading, error, data, refetch } = useQuery(
     "userTutorProfile",
     getUserTutorProfile

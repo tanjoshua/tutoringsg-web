@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "../_app";
-import { Fragment, ReactElement, useState } from "react";
+import { Fragment, ReactElement, useEffect, useState } from "react";
 import Layout from "../../components/layouts/Layout";
 import { useQuery } from "react-query";
 import {
@@ -22,7 +22,7 @@ import {
 } from "@/utils/options/subjects";
 import { LevelCategories, levelCategoryOptions } from "@/utils/options/levels";
 import { regionOptions } from "@/utils/options/regions";
-import { RedirectIfNotLoggedIn } from "@/utils/redirect";
+import { RedirectIfNotLoggedIn, RedirectIfNotTutor } from "@/utils/redirect";
 import uniqid from "uniqid";
 import { toast } from "react-hot-toast";
 import axios from "axios";
@@ -64,8 +64,8 @@ const initialValues = {
 };
 
 const CreateProfile: NextPageWithLayout = () => {
-  RedirectIfNotLoggedIn();
   const router = useRouter();
+  RedirectIfNotTutor();
   const { isLoading, error, data, refetch } = useQuery(
     "userTutorProfile",
     getUserTutorProfile

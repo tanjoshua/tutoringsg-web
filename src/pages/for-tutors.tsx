@@ -10,6 +10,11 @@ import {
 import Head from "next/head";
 import { FaceSmileIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { useQuery, useQueryClient } from "react-query";
+import { useRouter } from "next/router";
+import { getMe } from "@/services/user";
+import { becomeTutor } from "@/services/auth";
+import { toast } from "react-hot-toast";
 
 const features = [
   {
@@ -41,6 +46,11 @@ const features = [
 ];
 
 const ForTutors: NextPageWithLayout = () => {
+  const router = useRouter();
+  const { isLoading, error, data, refetch } = useQuery("me", getMe);
+  const isLoggedIn = !isLoading && !error && !!data?.user;
+  const queryClient = useQueryClient();
+
   return (
     <>
       <Head>
@@ -67,12 +77,30 @@ const ForTutors: NextPageWithLayout = () => {
               should keep all of the money you earn.
             </p>
             <div className="mt-10">
-              <Link
-                href="/register"
-                className="text-lg font-semibold leading-7 text-white p-2 bg-indigo-700 hover:bg-indigo-600 rounded-lg"
-              >
-                Join today <span aria-hidden="true">→</span>
-              </Link>
+              {isLoggedIn ? (
+                <button
+                  className="text-lg font-semibold leading-7 text-white p-2 bg-indigo-700 hover:bg-indigo-600 rounded-lg"
+                  onClick={async () => {
+                    try {
+                      const data = await becomeTutor();
+                      await queryClient.refetchQueries("me");
+                      toast.success(data?.message || "Success");
+                      router.push("/tutor/your-profile");
+                    } catch {
+                      toast.error("Error occured");
+                    }
+                  }}
+                >
+                  Become a tutor
+                </button>
+              ) : (
+                <Link
+                  href="/register/tutor"
+                  className="text-lg font-semibold leading-7 text-white p-2 bg-indigo-700 hover:bg-indigo-600 rounded-lg"
+                >
+                  Join today <span aria-hidden="true">→</span>
+                </Link>
+              )}
             </div>
           </div>
           <div className="mx-auto mt-16 max-w-2xl lg:max-w-4xl">

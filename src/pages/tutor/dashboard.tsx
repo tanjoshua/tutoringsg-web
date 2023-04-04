@@ -34,6 +34,7 @@ import { regionOptions } from "@/utils/options/regions";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   RedirectIfNotLoggedIn,
+  RedirectIfNotTutor,
   RedirectIfNoTutorProfile,
 } from "@/utils/redirect";
 import { classNames } from "@/utils/helpers";
@@ -46,7 +47,7 @@ const tabClassesSelected =
 
 const TutorProfile: NextPageWithLayout = () => {
   const router = useRouter();
-  RedirectIfNotLoggedIn();
+  RedirectIfNotTutor();
   RedirectIfNoTutorProfile();
   const { token } = router.query;
   const [filters, setFilters] = useState<{
