@@ -15,6 +15,7 @@ import {
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
+import toast from "react-hot-toast";
 
 export default function TutorRequestModal({
   tutorRequest,
@@ -191,6 +192,7 @@ export default function TutorRequestModal({
                       className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                       onClick={async () => {
                         await withdrawApplication({ id: tutorRequest._id });
+                        toast.success("Withdrawn");
                         refetch();
                         setOpen(false);
                       }}
@@ -203,6 +205,7 @@ export default function TutorRequestModal({
                       className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto"
                       onClick={async () => {
                         await applyToTutorRequest({ id: tutorRequest._id });
+                        toast.success("Applied");
                         refetch();
                         setOpen(false);
                       }}
