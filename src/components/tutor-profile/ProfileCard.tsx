@@ -41,8 +41,10 @@ export default function ProfileCard({
         <div>
           <div className="flex justify-between text-base text-gray-900 items-start">
             <div>
-              <div className="text-sm">{tutorProfile.tutorName}</div>
-              <h1 className="text-lg font-medium">{tutorProfile.title}</h1>
+              <div className="text-xs sm:text-sm">{tutorProfile.tutorName}</div>
+              <h1 className="sm:text-lg font-medium tracking-tight">
+                {tutorProfile.title}
+              </h1>
             </div>
             <div className="flex">
               <div className="flex items-center font-medium">

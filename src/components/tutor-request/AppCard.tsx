@@ -7,7 +7,12 @@ import {
 } from "@heroicons/react/24/outline";
 import { updateTutorApplicationState } from "@/services/tutorRequest";
 import { ApplicationState } from "@/utils/enums";
-import { PhoneIcon } from "@heroicons/react/20/solid";
+import {
+  CurrencyDollarIcon,
+  MapPinIcon,
+  PhoneIcon,
+  TagIcon,
+} from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { Tooltip } from "react-tooltip";
 
@@ -15,6 +20,8 @@ interface TutorProfile {
   _id: string;
   id: string;
   title: string;
+  type: string;
+  pricing: { rate: number };
   tutorName: string;
   qualifications: string;
   description: string;
@@ -58,8 +65,13 @@ export default function AppCard({
 
       <div className="ml-4 flex flex-1 flex-col">
         <div>
-          <div className="flex justify-between text-base font-medium text-gray-900">
-            <h3>{tutorProfile.tutorName}</h3>
+          <div className="flex justify-between items-start text-base font-medium text-gray-900">
+            <div>
+              <div className="text-xs sm:text-sm">{tutorProfile.tutorName}</div>
+              <h1 className="sm:text-lg font-medium tracking-tight">
+                {tutorProfile.title}
+              </h1>
+            </div>
             <div className="flex">
               {normal && (
                 <button
@@ -87,9 +99,24 @@ export default function AppCard({
               )}
             </div>
           </div>
+
           <p className="mt-1 text-sm text-gray-500 line-clamp-4 mb-1">
-            {tutorProfile.title}
-            <br />
+            <div className="sm:flex sm:items-center sm:space-x-1">
+              <div className="flex items-center text-sm text-gray-500">
+                <TagIcon
+                  className="h-5 w-5 flex-shrink-0 text-gray-400"
+                  aria-hidden="true"
+                />
+                {tutorProfile.type}
+              </div>
+              <div className="flex items-center text-sm text-gray-500">
+                <CurrencyDollarIcon
+                  className="h-5 w-5 flex-shrink-0 text-gray-400"
+                  aria-hidden="true"
+                />
+                {tutorProfile.pricing.rate}/hr
+              </div>
+            </div>
             {tutorProfile.qualifications}
           </p>
         </div>

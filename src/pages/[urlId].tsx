@@ -9,6 +9,7 @@ import {
   MapPinIcon,
   PencilIcon,
   PhoneIcon,
+  TagIcon,
   UserGroupIcon,
   UserIcon,
 } from "@heroicons/react/20/solid";
@@ -105,6 +106,13 @@ const TutorProfile: NextPageWithLayout = () => {
             </h1>
             <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
               <div className="mt-2 flex items-center text-sm text-gray-500">
+                <TagIcon
+                  className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                  aria-hidden="true"
+                />
+                {profile.type}
+              </div>
+              <div className="mt-2 flex items-center text-sm text-gray-500">
                 <UserIcon
                   className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
@@ -150,19 +158,17 @@ const TutorProfile: NextPageWithLayout = () => {
         <div className="border-t border-gray-200">
           <dl>
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-700">Tutor Name</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {profile.tutorName}
-              </dd>
-            </div>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-700">Levels</dt>
+              <dt className="text-sm font-medium text-gray-700">
+                Levels taught
+              </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 {profile.levels.join(", ")}
               </dd>
             </div>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-700">Subjects</dt>
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-700">
+                Subjects taught
+              </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 whitespace-pre-wrap">
                 {Object.values(LevelCategories).map((level) => {
                   if (
@@ -172,12 +178,6 @@ const TutorProfile: NextPageWithLayout = () => {
                     return `${level}: ${profile.subjects[level].join(", ")}\n`;
                   }
                 })}
-              </dd>
-            </div>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-700">Tutor Type</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {profile.type}
               </dd>
             </div>
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
