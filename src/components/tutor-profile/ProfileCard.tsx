@@ -75,7 +75,7 @@ export default function ProfileCard({
         <div className="flex flex-1 items-end justify-between text-sm">
           <Link
             className="flex-1 text-indigo-600 hover:text-indigo-500 cursor-pointer"
-            href={`/tutor-profile/${tutorProfile.urlId}`}
+            href={`/${tutorProfile.urlId}`}
           >
             Read more
           </Link>

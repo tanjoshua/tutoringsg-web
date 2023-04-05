@@ -420,9 +420,7 @@ const CreateProfile: NextPageWithLayout = () => {
             Generate random id
           </div>
           <div className="flex flex-row items-center mb-2">
-            <div className="text-sm text-gray-900 mr-2">
-              {process.env.WEB_URL}/
-            </div>
+            <div className="text-sm text-gray-900 mr-2">tutoring.sg/</div>
             <input
               id="urlId"
               className="mr-2 max-w-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none block p-2.5 w-full"

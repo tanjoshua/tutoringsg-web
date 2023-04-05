@@ -69,7 +69,19 @@ const RouteGuardRedirect = ({
       }
       setSafe(true);
     }
-  }, [data, profileData]);
+  }, [
+    data,
+    error,
+    ifLoggedIn,
+    ifNoTutorProfile,
+    ifNotLoggedIn,
+    ifNotTutor,
+    isLoading,
+    profileData,
+    profileError,
+    profileIsLoading,
+    router,
+  ]);
 
   return safe ? children : <></>;
 };

@@ -27,10 +27,6 @@ import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
 import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const YourProfile: NextPageWithLayout = () => {
-  const origin =
-    typeof window !== "undefined" && window.location.origin
-      ? window.location.origin
-      : ""; // getting hostname for shareable link
   const router = useRouter();
   const { isLoading, error, data, refetch } = useQuery(
     "userTutorProfile",
@@ -45,7 +41,8 @@ const YourProfile: NextPageWithLayout = () => {
 
   if (data?.profile) {
     const profile = data.profile;
-    const profileLink = `${origin}/tutor-profile/${profile.urlId}`;
+    const displayLink = `tutoring.sg/${profile.urlId}`;
+    const actualLink = `${process.env.WEB_URL}/${profile.urlId}`;
 
     // profile exists
     return (
@@ -86,14 +83,14 @@ const YourProfile: NextPageWithLayout = () => {
           <div className="">
             Visit your online profile at{" "}
             <Link
-              href={profileLink}
+              href={actualLink}
               target="_blank"
               className="hidden md:inline-block underline"
             >
-              {profileLink}
+              {displayLink}
             </Link>
             <Link
-              href={profileLink}
+              href={actualLink}
               target="_blank"
               className="md:hidden underline"
             >
@@ -196,7 +193,7 @@ const YourProfile: NextPageWithLayout = () => {
                 Share
               </button>
               <ShareModal
-                link={profileLink}
+                link={actualLink}
                 open={shareModalIsOpen}
                 setOpen={setShareModalIsOpen}
               />

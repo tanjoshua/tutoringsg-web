@@ -79,17 +79,15 @@ const Navbar = () => {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start ">
                 <div className="flex flex-shrink-0 items-center">
                   <Link href={atTutorPortal ? "/tutor/your-profile" : "/"}>
-                    <div className="text-xl text-white font-sans font-medium tracking-wide border border-white rounded-md px-2 py-1">
-                      {atTutorPortal ? (
-                        <div>
-                          <span className="text-red-500">tutor</span>ing.sg
-                        </div>
-                      ) : (
-                        <div>
-                          tutoring.<span className="text-red-500">sg</span>
-                        </div>
-                      )}
-                    </div>
+                    {atTutorPortal ? (
+                      <div className="text-xl text-white font-sans font-medium tracking-wide border border-white rounded-md px-2 py-1">
+                        <span className="text-red-500">tutor</span>ing.sg
+                      </div>
+                    ) : (
+                      <div className="text-xl text-white font-sans font-medium tracking-wide border border-white rounded-md px-2 py-1">
+                        tutoring.<span className="text-red-500">sg</span>
+                      </div>
+                    )}
                   </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
