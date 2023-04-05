@@ -1,22 +1,26 @@
 import Head from "next/head";
-import { NextPageWithLayout } from "./_app";
-import { ReactElement, useState } from "react";
+import { NextPageWithLayout } from "../_app";
+import { ReactElement, useEffect, useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
-import Layout from "../components/layouts/Layout";
+import Layout from "../../components/layouts/Layout";
 import { useFormik } from "formik";
 import { googleLogin, login } from "@/services/auth";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useQueryClient } from "react-query";
-import { RedirectIfLoggedIn } from "@/utils/redirect";
 import ForgetPasswordModal from "@/components/auth/ForgetPasswordModal";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
+const tabClasses =
+  "w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 ";
+const tabClassesSelected =
+  "w-full p-4 text-indigo-600 border-b-2 border-indigo-600 rounded-t-lg";
 const Login: NextPageWithLayout = () => {
-  RedirectIfLoggedIn();
   const router = useRouter();
+  const isTutorLogin = router.pathname === "/login/tutor";
   const queryClient = useQueryClient();
   const formik = useFormik({
     initialValues: {
@@ -25,13 +29,14 @@ const Login: NextPageWithLayout = () => {
     },
     onSubmit: async (values) => {
       try {
-        await login(values);
+        await login({ ...values, tutor: isTutorLogin });
         queryClient.refetchQueries("me");
         toast.success("Logged in");
       } catch (error) {
+        console.log(error);
         if (axios.isAxiosError(error)) {
           if (error.response?.status === 401) {
-            toast.error("Invalid credentials");
+            toast.error(error.response.data.message);
           } else {
             toast.error("Couldn't log in");
           }
@@ -46,11 +51,20 @@ const Login: NextPageWithLayout = () => {
     const credential = response.credential;
     if (credential) {
       try {
-        const data = await googleLogin({ credential });
+        const data = await googleLogin({ credential, tutor: isTutorLogin });
         queryClient.refetchQueries("me");
         toast.success(data.message);
-      } catch {
-        toast.error("Couldn't log in");
+      } catch (error) {
+        console.log(error);
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 401) {
+            toast.error(error.response.data.message);
+          } else {
+            toast.error("Couldn't log in");
+          }
+        } else {
+          toast.error("Couldn't log in");
+        }
       }
     } else {
       toast.error("Could not get credentials");
@@ -68,15 +82,43 @@ const Login: NextPageWithLayout = () => {
         setOpen={setForgetPasswordModalIsOpen}
       />
       <>
-        <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="flex min-h-full items-center justify-center sm:py-12 px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-md space-y-6">
+            <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mx-2 leading-6">
+              <ul className="flex -mb-px">
+                <li className="flex-1">
+                  <button
+                    onClick={() => router.replace("/login")}
+                    className={!isTutorLogin ? tabClassesSelected : tabClasses}
+                  >
+                    Client portal
+                  </button>
+                </li>
+                <li className="flex-1 ">
+                  <button
+                    onClick={() => router.replace("/login/tutor")}
+                    className={isTutorLogin ? tabClassesSelected : tabClasses}
+                  >
+                    Tutor portal
+                  </button>
+                </li>
+              </ul>
+            </div>
             <div>
               <div className="mx-auto w-min text-4xl text-gray-800 font-sans font-medium tracking-wide rounded-md px-2 py-1">
-                tutoring.<span className="text-red-500">sg</span>
+                {isTutorLogin ? (
+                  <div>
+                    <span className="text-red-500">tutor</span>ing.sg
+                  </div>
+                ) : (
+                  <div>
+                    tutoring.<span className="text-red-500">sg</span>
+                  </div>
+                )}
               </div>
               <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
                 Sign in to your account <br />
-                (tutor portal)
+                {isTutorLogin ? "(Tutor portal)" : "(Client portal)"}
               </h2>
             </div>
             <div className="flex justify-center">
@@ -175,7 +217,11 @@ const Login: NextPageWithLayout = () => {
 };
 
 Login.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifLoggedIn>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default Login;

@@ -15,6 +15,7 @@ import {
   ClipboardDocumentCheckIcon,
   ClipboardDocumentListIcon,
 } from "@heroicons/react/24/outline";
+import toast from "react-hot-toast";
 
 export default function RequestCard({
   tutorRequest,
@@ -108,6 +109,7 @@ export default function RequestCard({
               className="font-medium text-indigo-600 hover:text-indigo-500 flex content-center group/apply"
               onClick={async () => {
                 await withdrawApplication({ id: tutorRequest._id });
+                toast.success("Withdrawn");
                 refetch();
               }}
             >
@@ -126,6 +128,7 @@ export default function RequestCard({
               className="font-medium text-indigo-600 hover:text-indigo-500 flex content-center"
               onClick={async () => {
                 await applyToTutorRequest({ id: tutorRequest._id });
+                toast.success("Applied");
                 refetch();
               }}
             >

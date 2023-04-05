@@ -21,11 +21,10 @@ import {
   withdrawApplication,
 } from "@/services/tutorRequest";
 import { RateOptions } from "@/utils/enums";
-import { RedirectIfNotLoggedIn } from "@/utils/redirect";
 import Link from "next/link";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const TutorProfile: NextPageWithLayout = () => {
-  RedirectIfNotLoggedIn();
   const router = useRouter();
   const { requestId } = router.query;
   const { isLoading, error, data, refetch } = useQuery(
@@ -216,7 +215,11 @@ const TutorProfile: NextPageWithLayout = () => {
 };
 
 TutorProfile.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifNotLoggedIn>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default TutorProfile;

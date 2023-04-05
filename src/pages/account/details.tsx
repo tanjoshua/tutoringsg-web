@@ -2,7 +2,6 @@ import Head from "next/head";
 import { NextPageWithLayout } from "./../_app";
 import { ReactElement } from "react";
 import Layout from "../../components/layouts/Layout";
-import { RedirectIfNotLoggedIn } from "@/utils/redirect";
 import { useQuery } from "react-query";
 import { getMe } from "@/services/user";
 import Spinner from "@/components/shared/Spinner";
@@ -14,9 +13,9 @@ import { Tooltip } from "react-tooltip";
 import { requestEmailVerification } from "@/services/auth";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const AccountDetails: NextPageWithLayout = () => {
-  RedirectIfNotLoggedIn();
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
   return (
     <>
@@ -87,6 +86,27 @@ const AccountDetails: NextPageWithLayout = () => {
                   Verify email
                 </div>
               )}
+            </div>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Account type
+              </label>
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                {data?.user?.isTutor ? "Tutor account" : "Client account"}
+
+                <br />
+                {!data?.user?.isTutor && (
+                  <Link
+                    href="/for-tutors"
+                    className="text-indigo-600 cursor-pointer hover:underline"
+                  >
+                    Become a tutor
+                  </Link>
+                )}
+              </p>
             </div>
 
             <div>
@@ -160,7 +180,11 @@ const AccountDetails: NextPageWithLayout = () => {
 };
 
 AccountDetails.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifNotLoggedIn>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default AccountDetails;

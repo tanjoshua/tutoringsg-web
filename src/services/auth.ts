@@ -4,35 +4,64 @@ export const register = ({
   name,
   email,
   password,
+  tutor,
 }: {
   name: string;
   email: string;
   password: string;
+  tutor: boolean;
 }) => {
-  return instance.post("/base/auth/register", { name, email, password });
+  return instance.post("/base/auth/register", { name, email, password, tutor });
 };
 
-export const login = ({
+export const login = async ({
   email,
   password,
+  tutor,
 }: {
   email: string;
   password: string;
+  tutor: boolean;
 }) => {
-  return instance.post("/base/auth/login", { email, password });
-};
-
-export const googleLogin = async ({ credential }: { credential: string }) => {
-  const result = await instance.post("/base/auth/googleLogin", { credential });
+  const result = await instance.post("/base/auth/login", {
+    email,
+    password,
+    tutor,
+  });
   return result.data;
 };
 
-export const googleRegister = ({ credential }: { credential: string }) => {
-  return instance.post("/base/auth/googleRegister", { credential });
+export const googleLogin = async ({
+  credential,
+  tutor,
+}: {
+  credential: string;
+  tutor: boolean;
+}) => {
+  const result = await instance.post("/base/auth/googleLogin", {
+    credential,
+    tutor,
+  });
+  return result.data;
+};
+
+export const googleRegister = ({
+  credential,
+  tutor,
+}: {
+  credential: string;
+  tutor: boolean;
+}) => {
+  return instance.post("/base/auth/googleRegister", { credential, tutor });
 };
 
 export const logout = async () => {
   return instance.post("/base/auth/logout");
+};
+
+export const becomeTutor = async () => {
+  const result = await instance.post("/base/auth/becomeTutor");
+  return result.data;
 };
 
 export const forgotPassword = ({ email }: { email: string }) => {

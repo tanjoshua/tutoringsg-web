@@ -7,6 +7,11 @@ const nextConfig = {
   },
   images: {
    domains: ["cdn.pixabay.com", "tutoringsg-profile-pictures.s3.ap-southeast-1.amazonaws.com"]
+  },
+  async rewrites() {
+    return [
+      
+    ]
   }
 }
 

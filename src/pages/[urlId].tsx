@@ -1,6 +1,6 @@
-import { NextPageWithLayout } from "../_app";
+import { NextPageWithLayout } from "./_app";
 import { ReactElement, useState } from "react";
-import Layout from "../../components/layouts/Layout";
+import Layout from "../components/layouts/Layout";
 import { useQuery } from "react-query";
 import { getTutorProfile, getUserTutorProfile } from "@/services/tutor";
 import {
@@ -39,6 +39,9 @@ const TutorProfile: NextPageWithLayout = () => {
     // profile does not exist
     return (
       <div className="relative px-6 lg:px-8">
+        <Head>
+          <title>404</title>
+        </Head>
         <div className="mx-auto max-w-2xl py-20 ">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
@@ -72,7 +75,7 @@ const TutorProfile: NextPageWithLayout = () => {
         </Head>
 
         <ShareModal
-          link={`${origin}/tutor-profile/${profile.urlId}`}
+          link={`${process.env.WEB_URL}/${profile.urlId}`}
           open={shareModalIsOpen}
           setOpen={setShareModalIsOpen}
         />

@@ -23,13 +23,9 @@ import { Tooltip } from "react-tooltip";
 const MakeTutorRequest: NextPageWithLayout = () => {
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
-  const origin =
-    typeof window !== "undefined" && window.location.origin
-      ? window.location.origin
-      : ""; // getting hostname for shareable link
-  const [clientLink, setClientLink] = useState(
-    `${origin}/request/client-view/c0ugn0lex2l1w`
-  );
+  const origin = process.env.WEB_URL;
+
+  const [clientLink, setClientLink] = useState("");
   const { values, setFieldValue, handleSubmit, handleChange, isSubmitting } =
     useFormik<{
       // types so that i can use .include

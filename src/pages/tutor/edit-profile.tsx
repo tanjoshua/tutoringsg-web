@@ -21,11 +21,11 @@ import {
 } from "@/utils/options/subjects";
 import { LevelCategories, levelCategoryOptions } from "@/utils/options/levels";
 import { regionOptions } from "@/utils/options/regions";
-import { RedirectIfNotLoggedIn } from "@/utils/redirect";
 import uniqid from "uniqid";
 import { CheckCircleIcon, CheckIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import toast from "react-hot-toast";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const tutorTypes = [
   "Part-Time Tutor",
@@ -64,7 +64,6 @@ const initialValues = {
 };
 
 const EditProfile: NextPageWithLayout = () => {
-  RedirectIfNotLoggedIn();
   const router = useRouter();
   const { isLoading, error, data, refetch } = useQuery(
     "userTutorProfile",
@@ -80,7 +79,7 @@ const EditProfile: NextPageWithLayout = () => {
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (error.response?.status === 409) {
-            toast.error("URL already exists");
+            toast.error(error.response.data?.message || "Choose another URL");
           } else {
             toast.error("Error editing profile");
           }
@@ -415,16 +414,23 @@ const EditProfile: NextPageWithLayout = () => {
             Generate random id
           </div>
           <div className="flex flex-row items-center mb-2">
-            <div className="text-sm text-gray-900 mr-2">
-              {process.env.WEB_URL}/
+            <div className="text-base font-semibold text-gray-900 mr-2">
+              tutoring.sg/
             </div>
             <input
               id="urlId"
               className="mr-2 max-w-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none block p-2.5 w-full"
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                e.preventDefault();
+                const value = e.target.value
+                  .replace(/[^0-9a-zA-Z]+/gi, "")
+                  .toLowerCase();
+                formik.setFieldValue("urlId", value);
+              }}
               value={formik.values.urlId}
               required
-              maxLength={20}
+              minLength={4}
+              maxLength={25}
             />
           </div>
 
@@ -500,7 +506,11 @@ const EditProfile: NextPageWithLayout = () => {
 };
 
 EditProfile.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifNoTutorProfile>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default EditProfile;

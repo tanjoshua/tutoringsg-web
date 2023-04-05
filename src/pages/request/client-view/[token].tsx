@@ -290,7 +290,14 @@ const TutorProfile: NextPageWithLayout = () => {
                     <ul role="list" className="divide-y divide-gray-200">
                       {shortlistedApplications.length === 0 && (
                         <div className="text-sm text-gray-500">
-                          No shortlisted applicants.
+                          No shortlisted applicants. You can also{" "}
+                          <Link
+                            href="/browse"
+                            className="text-indigo-500 hover:underline"
+                          >
+                            browse our marketplace
+                          </Link>{" "}
+                          to find more tutors!
                         </div>
                       )}
                       {shortlistedApplications.map((app) => (
@@ -321,7 +328,14 @@ const TutorProfile: NextPageWithLayout = () => {
                 <ul role="list" className="divide-y divide-gray-200">
                   {shortlistedApplications.length === 0 && (
                     <div className="text-sm text-gray-500">
-                      No shortlisted applicants.
+                      No shortlisted applicants. You can also{" "}
+                      <Link
+                        href="/browse"
+                        className="text-indigo-500 hover:underline"
+                      >
+                        browse our marketplace
+                      </Link>{" "}
+                      to find more tutors!
                     </div>
                   )}
                   {shortlistedApplications.map((app) => (

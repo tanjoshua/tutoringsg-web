@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "../_app";
-import { Fragment, ReactElement, useState } from "react";
+import { Fragment, ReactElement, useEffect, useState } from "react";
 import Layout from "../../components/layouts/Layout";
 import { useQuery } from "react-query";
 import {
@@ -22,10 +22,10 @@ import {
 } from "@/utils/options/subjects";
 import { LevelCategories, levelCategoryOptions } from "@/utils/options/levels";
 import { regionOptions } from "@/utils/options/regions";
-import { RedirectIfNotLoggedIn } from "@/utils/redirect";
 import uniqid from "uniqid";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const tutorTypes = [
   "Part-Time Tutor",
@@ -64,7 +64,6 @@ const initialValues = {
 };
 
 const CreateProfile: NextPageWithLayout = () => {
-  RedirectIfNotLoggedIn();
   const router = useRouter();
   const { isLoading, error, data, refetch } = useQuery(
     "userTutorProfile",
@@ -421,9 +420,7 @@ const CreateProfile: NextPageWithLayout = () => {
             Generate random id
           </div>
           <div className="flex flex-row items-center mb-2">
-            <div className="text-sm text-gray-900 mr-2">
-              {process.env.WEB_URL}/
-            </div>
+            <div className="text-sm text-gray-900 mr-2">tutoring.sg/</div>
             <input
               id="urlId"
               className="mr-2 max-w-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none block p-2.5 w-full"
@@ -503,7 +500,11 @@ const CreateProfile: NextPageWithLayout = () => {
 };
 
 CreateProfile.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifNotTutor>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default CreateProfile;

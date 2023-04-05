@@ -1,20 +1,24 @@
 import Head from "next/head";
-import { NextPageWithLayout } from "./_app";
-import { ReactElement } from "react";
-import Layout from "../components/layouts/Layout";
+import { NextPageWithLayout } from "../_app";
+import { ReactElement, useEffect } from "react";
+import Layout from "../../components/layouts/Layout";
 import { useFormik } from "formik";
 import { googleRegister, register } from "@/services/auth";
 import { useRouter } from "next/router";
 import axios, { AxiosError } from "axios";
-import { RedirectIfLoggedIn } from "@/utils/redirect";
 import toast from "react-hot-toast";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useQueryClient } from "react-query";
 import Link from "next/link";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
+const tabClasses =
+  "w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 ";
+const tabClassesSelected =
+  "w-full p-4 text-indigo-600 border-b-2 border-indigo-600 rounded-t-lg";
 const Register: NextPageWithLayout = () => {
-  RedirectIfLoggedIn();
   const router = useRouter();
+  const isTutorRegister = router.pathname === "/register/tutor";
   const queryClient = useQueryClient();
   const formik = useFormik({
     initialValues: {
@@ -24,7 +28,8 @@ const Register: NextPageWithLayout = () => {
     },
     onSubmit: async (values) => {
       try {
-        await register(values);
+        await register({ ...values, tutor: isTutorRegister });
+        queryClient.refetchQueries("me");
         toast.success("Account created");
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -41,8 +46,9 @@ const Register: NextPageWithLayout = () => {
     const credential = response.credential;
     if (credential) {
       try {
-        await googleRegister({ credential });
+        await googleRegister({ credential, tutor: isTutorRegister });
         queryClient.refetchQueries("me");
+        toast.success("Account created");
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (error.response?.status === 403) {
@@ -62,12 +68,40 @@ const Register: NextPageWithLayout = () => {
         <title>Register</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8">
+      <div className="flex min-h-full items-center justify-center sm:py-12 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-md space-y-6">
+          <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mx-2 leading-6">
+            <ul className="flex -mb-px">
+              <li className="flex-1">
+                <button
+                  onClick={() => router.replace("/register")}
+                  className={!isTutorRegister ? tabClassesSelected : tabClasses}
+                >
+                  Client account
+                </button>
+              </li>
+              <li className="flex-1 ">
+                <button
+                  onClick={() => router.replace("/register/tutor")}
+                  className={isTutorRegister ? tabClassesSelected : tabClasses}
+                >
+                  Tutor account
+                </button>
+              </li>
+            </ul>
+          </div>
           <div>
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-              Create a tutor account
+            <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
+              {isTutorRegister
+                ? "Create a tutor account"
+                : "Create a client account"}
             </h2>
+            {isTutorRegister && (
+              <p className="text-center text-gray-500">
+                You can also convert an existing account into a tutor account
+                under Account Details
+              </p>
+            )}
           </div>
           <div className="flex justify-center">
             <GoogleLogin
@@ -149,7 +183,7 @@ const Register: NextPageWithLayout = () => {
             <div className="text-center text-sm">
               Already have an account?{" "}
               <Link
-                href="/login"
+                href={isTutorRegister ? "/login/tutor" : "/login"}
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 Login
@@ -163,7 +197,11 @@ const Register: NextPageWithLayout = () => {
 };
 
 Register.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifLoggedIn>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default Register;

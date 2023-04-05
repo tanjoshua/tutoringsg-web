@@ -19,18 +19,19 @@ import { Tooltip } from "react-tooltip";
 
 const Navbar = () => {
   const router = useRouter();
-  const atLoginPage = router.pathname === "/login";
+  const atLoginPage =
+    router.pathname === "/login" || router.pathname === "/login/tutor";
   const atTutorPortal = router.pathname.startsWith("/tutor/");
 
   const queryClient = useQueryClient();
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
   const isLoggedIn = !isLoading && !!data?.user;
-  const navigation = isLoading
-    ? []
-    : atTutorPortal
+  const isTutorAccount = !!data?.user?.isTutor;
+
+  const navigation = atTutorPortal
     ? [
         {
-          name: "Dashboard",
+          name: "Apply to Requests",
           href: "/tutor/dashboard",
           current: router.pathname === "/tutor/dashboard",
         },
@@ -78,17 +79,15 @@ const Navbar = () => {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start ">
                 <div className="flex flex-shrink-0 items-center">
                   <Link href={atTutorPortal ? "/tutor/your-profile" : "/"}>
-                    <div className="text-xl text-white font-sans font-medium tracking-wide border border-white rounded-md px-2 py-1">
-                      {atTutorPortal ? (
-                        <div>
-                          <span className="text-red-500">tutor</span>ing.sg
-                        </div>
-                      ) : (
-                        <div>
-                          tutoring.<span className="text-red-500">sg</span>
-                        </div>
-                      )}
-                    </div>
+                    {atTutorPortal ? (
+                      <div className="text-xl text-white font-sans font-medium tracking-wide border border-white rounded-md px-2 py-1">
+                        <span className="text-red-500">tutor</span>ing.sg
+                      </div>
+                    ) : (
+                      <div className="text-xl text-white font-sans font-medium tracking-wide border border-white rounded-md px-2 py-1">
+                        tutoring.<span className="text-red-500">sg</span>
+                      </div>
+                    )}
                   </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
@@ -113,6 +112,7 @@ const Navbar = () => {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {isLoggedIn &&
+                  isTutorAccount &&
                   (atTutorPortal ? (
                     <Link href="/browse">
                       <div className="hidden md:block text-gray-300">
@@ -151,17 +151,17 @@ const Navbar = () => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                href="/account/details"
+                                href={"/account/details"}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
-                                Your account
+                                Account details
                               </Link>
                             )}
                           </Menu.Item>
-                          {atTutorPortal && (
+                          {atTutorPortal && isTutorAccount && (
                             <Menu.Item>
                               {({ active }) => (
                                 <Link
@@ -176,7 +176,7 @@ const Navbar = () => {
                               )}
                             </Menu.Item>
                           )}
-                          {!atTutorPortal && (
+                          {!atTutorPortal && isTutorAccount && (
                             <Menu.Item>
                               {({ active }) => (
                                 <Link
@@ -232,13 +232,13 @@ const Navbar = () => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                href="/login"
+                                href="/login/tutor"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
-                                Tutor Login
+                                Tutor portal
                               </Link>
                             )}
                           </Menu.Item>
@@ -246,22 +246,14 @@ const Navbar = () => {
                             {({ active }) => (
                               <>
                                 <Link
-                                  data-tooltip-id="comingsoon"
-                                  href="#"
+                                  href="/login"
                                   className={classNames(
                                     active ? "bg-gray-100" : "",
                                     "block px-4 py-2 text-sm text-gray-300"
                                   )}
                                 >
-                                  Client Login (soon!)
+                                  Client portal
                                 </Link>
-                                <Tooltip
-                                  id="comingsoon"
-                                  variant="warning"
-                                  place="left"
-                                >
-                                  Coming soon!
-                                </Tooltip>
                               </>
                             )}
                           </Menu.Item>

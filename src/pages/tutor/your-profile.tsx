@@ -20,18 +20,13 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import ShareModal from "@/components/tutor-profile/ShareModal";
 import { LevelCategories } from "@/utils/options/levels";
-import { RedirectIfNotLoggedIn } from "@/utils/redirect";
 import UploadProfilePicModal from "@/components/tutor-profile/UploadProfilePicModal";
 import Link from "next/link";
 import Image from "next/image";
 import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const YourProfile: NextPageWithLayout = () => {
-  RedirectIfNotLoggedIn();
-  const origin =
-    typeof window !== "undefined" && window.location.origin
-      ? window.location.origin
-      : ""; // getting hostname for shareable link
   const router = useRouter();
   const { isLoading, error, data, refetch } = useQuery(
     "userTutorProfile",
@@ -44,9 +39,10 @@ const YourProfile: NextPageWithLayout = () => {
     return <></>;
   }
 
-  if (data.profile) {
+  if (data?.profile) {
     const profile = data.profile;
-    const profileLink = `${origin}/tutor-profile/${profile.urlId}`;
+    const displayLink = `tutoring.sg/${profile.urlId}`;
+    const actualLink = `${process.env.WEB_URL}/${profile.urlId}`;
 
     // profile exists
     return (
@@ -87,14 +83,14 @@ const YourProfile: NextPageWithLayout = () => {
           <div className="">
             Visit your online profile at{" "}
             <Link
-              href={profileLink}
+              href={actualLink}
               target="_blank"
               className="hidden md:inline-block underline"
             >
-              {profileLink}
+              {displayLink}
             </Link>
             <Link
-              href={profileLink}
+              href={actualLink}
               target="_blank"
               className="md:hidden underline"
             >
@@ -197,7 +193,7 @@ const YourProfile: NextPageWithLayout = () => {
                 Share
               </button>
               <ShareModal
-                link={profileLink}
+                link={actualLink}
                 open={shareModalIsOpen}
                 setOpen={setShareModalIsOpen}
               />
@@ -351,7 +347,11 @@ const YourProfile: NextPageWithLayout = () => {
 };
 
 YourProfile.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifNotTutor>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default YourProfile;
