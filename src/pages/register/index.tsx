@@ -6,11 +6,11 @@ import { useFormik } from "formik";
 import { googleRegister, register } from "@/services/auth";
 import { useRouter } from "next/router";
 import axios, { AxiosError } from "axios";
-import { RedirectIfLoggedIn } from "@/utils/redirect";
 import toast from "react-hot-toast";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useQueryClient } from "react-query";
 import Link from "next/link";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const tabClasses =
   "w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 ";
@@ -18,7 +18,6 @@ const tabClassesSelected =
   "w-full p-4 text-indigo-600 border-b-2 border-indigo-600 rounded-t-lg";
 const Register: NextPageWithLayout = () => {
   const router = useRouter();
-  RedirectIfLoggedIn();
   const isTutorRegister = router.pathname === "/register/tutor";
   const queryClient = useQueryClient();
   const formik = useFormik({
@@ -198,7 +197,11 @@ const Register: NextPageWithLayout = () => {
 };
 
 Register.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifLoggedIn>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default Register;

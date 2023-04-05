@@ -20,11 +20,11 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import ShareModal from "@/components/tutor-profile/ShareModal";
 import { LevelCategories } from "@/utils/options/levels";
-import { RedirectIfNotLoggedIn, RedirectIfNotTutor } from "@/utils/redirect";
 import UploadProfilePicModal from "@/components/tutor-profile/UploadProfilePicModal";
 import Link from "next/link";
 import Image from "next/image";
 import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const YourProfile: NextPageWithLayout = () => {
   const origin =
@@ -32,7 +32,6 @@ const YourProfile: NextPageWithLayout = () => {
       ? window.location.origin
       : ""; // getting hostname for shareable link
   const router = useRouter();
-  RedirectIfNotTutor();
   const { isLoading, error, data, refetch } = useQuery(
     "userTutorProfile",
     getUserTutorProfile
@@ -44,7 +43,7 @@ const YourProfile: NextPageWithLayout = () => {
     return <></>;
   }
 
-  if (data.profile) {
+  if (data?.profile) {
     const profile = data.profile;
     const profileLink = `${origin}/tutor-profile/${profile.urlId}`;
 
@@ -351,7 +350,11 @@ const YourProfile: NextPageWithLayout = () => {
 };
 
 YourProfile.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifNotTutor>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default YourProfile;

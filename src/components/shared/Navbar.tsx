@@ -28,9 +28,7 @@ const Navbar = () => {
   const isLoggedIn = !isLoading && !!data?.user;
   const isTutorAccount = !!data?.user?.isTutor;
 
-  const navigation = isLoading
-    ? []
-    : atTutorPortal
+  const navigation = atTutorPortal
     ? [
         {
           name: "Apply to Requests",

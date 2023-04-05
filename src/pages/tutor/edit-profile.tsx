@@ -21,11 +21,11 @@ import {
 } from "@/utils/options/subjects";
 import { LevelCategories, levelCategoryOptions } from "@/utils/options/levels";
 import { regionOptions } from "@/utils/options/regions";
-import { RedirectIfNotTutor } from "@/utils/redirect";
 import uniqid from "uniqid";
 import { CheckCircleIcon, CheckIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import toast from "react-hot-toast";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const tutorTypes = [
   "Part-Time Tutor",
@@ -65,7 +65,6 @@ const initialValues = {
 
 const EditProfile: NextPageWithLayout = () => {
   const router = useRouter();
-  RedirectIfNotTutor();
   const { isLoading, error, data, refetch } = useQuery(
     "userTutorProfile",
     getUserTutorProfile
@@ -500,7 +499,11 @@ const EditProfile: NextPageWithLayout = () => {
 };
 
 EditProfile.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifNoTutorProfile>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default EditProfile;

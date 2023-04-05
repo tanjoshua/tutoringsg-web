@@ -8,11 +8,11 @@ import { googleLogin, login } from "@/services/auth";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useQueryClient } from "react-query";
-import { RedirectIfLoggedIn } from "@/utils/redirect";
 import ForgetPasswordModal from "@/components/auth/ForgetPasswordModal";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const tabClasses =
   "w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 ";
@@ -20,7 +20,6 @@ const tabClassesSelected =
   "w-full p-4 text-indigo-600 border-b-2 border-indigo-600 rounded-t-lg";
 const Login: NextPageWithLayout = () => {
   const router = useRouter();
-  RedirectIfLoggedIn();
   const isTutorLogin = router.pathname === "/login/tutor";
   const queryClient = useQueryClient();
   const formik = useFormik({
@@ -218,7 +217,11 @@ const Login: NextPageWithLayout = () => {
 };
 
 Login.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifLoggedIn>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default Login;

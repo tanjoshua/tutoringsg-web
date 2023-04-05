@@ -32,13 +32,9 @@ import { getUserTutorProfile } from "@/services/tutor";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { regionOptions } from "@/utils/options/regions";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import {
-  RedirectIfNotLoggedIn,
-  RedirectIfNotTutor,
-  RedirectIfNoTutorProfile,
-} from "@/utils/redirect";
 import { classNames } from "@/utils/helpers";
 import { RequestSortBy } from "@/utils/options/sort";
+import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
 
 const tabClasses =
   "inline-block px-4 pb-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 ";
@@ -47,8 +43,6 @@ const tabClassesSelected =
 
 const TutorProfile: NextPageWithLayout = () => {
   const router = useRouter();
-  RedirectIfNotTutor();
-  RedirectIfNoTutorProfile();
   const { token } = router.query;
   const [filters, setFilters] = useState<{
     region: string[];
@@ -595,7 +589,11 @@ const TutorProfile: NextPageWithLayout = () => {
 };
 
 TutorProfile.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout>
+      <RouteGuardRedirect ifNoTutorProfile>{page}</RouteGuardRedirect>
+    </Layout>
+  );
 };
 
 export default TutorProfile;
