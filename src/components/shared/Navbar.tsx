@@ -232,6 +232,19 @@ const Navbar = () => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
+                                href="/login"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Client portal
+                              </Link>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link
                                 href="/login/tutor"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
@@ -240,21 +253,6 @@ const Navbar = () => {
                               >
                                 Tutor portal
                               </Link>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <>
-                                <Link
-                                  href="/login"
-                                  className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-300"
-                                  )}
-                                >
-                                  Client portal
-                                </Link>
-                              </>
                             )}
                           </Menu.Item>
                         </Menu.Items>
