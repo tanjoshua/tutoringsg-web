@@ -44,7 +44,7 @@ const features = [
     icon: UserCircleIcon,
   },
   {
-    name: "No middlement",
+    name: "No middlemen",
     description: `Our platform is designed to connect tutors and students directly, eliminating the need for middlemen and streamlining the process of finding the right match for each student. 
     By cutting out the middleman, we're able to ensure fast turnaround times for both tutors and students. 
     Potential clients can reach you directly, without having to navigate through a complex system or wait for intermediaries to facilitate the process. `,
