@@ -6,6 +6,7 @@ import {
   CurrencyDollarIcon,
   EyeSlashIcon,
   ForwardIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import Head from "next/head";
 import { FaceSmileIcon } from "@heroicons/react/20/solid";
@@ -24,18 +25,30 @@ const features = [
     icon: CurrencyDollarIcon,
   },
   {
-    name: "No middlemen",
+    name: "Your digital resume",
+    description: (
+      <div>
+        After creating a tutor profile, you get a customizable and shareable
+        link, such as{" "}
+        <Link
+          href="/josh"
+          className="font-bold text-indigo-600 hover:underline cursor-pointer"
+        >
+          tutoring.sg/josh
+        </Link>{" "}
+        where you can showcase your qualifications and expertise. If you
+        don&apos;t have a large online presence or website, let us provide that
+        for you.
+      </div>
+    ),
+    icon: UserCircleIcon,
+  },
+  {
+    name: "No middlement",
     description: `Our platform is designed to connect tutors and students directly, eliminating the need for middlemen and streamlining the process of finding the right match for each student. 
     By cutting out the middleman, we're able to ensure fast turnaround times for both tutors and students. 
     Potential clients can reach you directly, without having to navigate through a complex system or wait for intermediaries to facilitate the process. `,
     icon: ForwardIcon,
-  },
-  {
-    name: "Privacy",
-    description: `Protecting your privacy is our top priority at our tutoring platform. 
-      With our flexible profile settings, you can choose exactly what information is displayed publicly and make your profile completely private if you prefer. 
-      This way, you can rest assured that your personal information is only shared with potential students that you've chosen to apply to`,
-    icon: EyeSlashIcon,
   },
   {
     name: "Future improvements",
@@ -60,7 +73,7 @@ const ForTutors: NextPageWithLayout = () => {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">
-              100% commission free
+              100% commission free marketplace
             </h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Join Our Free Tutoring Marketplace and Matching Service

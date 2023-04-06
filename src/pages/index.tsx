@@ -98,27 +98,28 @@ const Home: NextPageWithLayout = () => {
               <div className="text-4xl sm:text-6xl text-gray-800 font-sans font-semibold tracking-wide">
                 tutoring.<span className="text-red-500">sg</span>
               </div>
-              <h2 className="mt-6 text-3xl font-bold tracking-tight  sm:text-4xl">
-                Find the best private tutors
-                <br />
+              <h2 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
+                Find the best private tutors{" "}
+                <br className="hidden lg:inline-block" />
                 in Singapore.
               </h2>
-              <p className="mt-6 text-lg leading-8 text-gray-900">
+              <p className="mt-6 text-lg leading-8 text-gray-900 text-left">
                 100% commission free for both students and tutors. Browse the
-                tutor marketplace or make a request.
+                tutor marketplace or make a request. No account necessary.
               </p>
               <div className="mt-6 flex items-center justify-center gap-x-6 lg:justify-start">
                 <Link
-                  href="/request/make"
+                  href="/browse"
                   className="rounded-md bg-indigo-600 px-3.5 py-1.5 text-sm md:text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Make a request
+                  Browse tutors
                 </Link>
                 <Link
-                  href="/browse"
+                  href="/request/make"
                   className="text-base font-semibold leading-7 text-gray-900"
                 >
-                  Browse tutors <span aria-hidden="true">→</span>
+                  Make a request
+                  <span aria-hidden="true">→</span>
                 </Link>
               </div>
               <div className="mt-6 flex justify-center lg:justify-start">
@@ -258,9 +259,11 @@ const Home: NextPageWithLayout = () => {
                 </div>
               </dl>
               <div className="flex items-center my-10">
-                <div className="flex-grow border-t border-1 flex-1"></div>
-                <div className="-mt-1 mx-2 text-gray-400 ">or</div>
-                <div className="flex-grow border-t border-1 flex-1"></div>
+                <div className="flex-grow border-t border-1 flex-1 border-gray-300"></div>
+                <div className="-mt-1 mx-2 font-semibold text-xl text-gray-400">
+                  or
+                </div>
+                <div className="flex-grow border-t border-1 flex-1 border-gray-300"></div>
               </div>
               <dl className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-3">
                 <div className="flex flex-col items-start">

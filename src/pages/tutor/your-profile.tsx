@@ -15,6 +15,7 @@ import {
   PhoneIcon,
   UserPlusIcon,
   EyeIcon,
+  TagIcon,
 } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -125,7 +126,7 @@ const YourProfile: NextPageWithLayout = () => {
             </div>
             <div>
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-                Your Tutor Profile
+                Your Tutor Profile Details
               </h2>
               <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
                 <div className="mt-2 flex items-center text-sm text-gray-700">
@@ -146,6 +147,13 @@ const YourProfile: NextPageWithLayout = () => {
                       Private profile
                     </>
                   )}
+                </div>
+                <div className="mt-2 flex items-center text-sm text-gray-500">
+                  <TagIcon
+                    className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                    aria-hidden="true"
+                  />
+                  {profile.type}
                 </div>
                 <div className="mt-2 flex items-center text-sm text-gray-500">
                   <UserIcon
@@ -203,25 +211,25 @@ const YourProfile: NextPageWithLayout = () => {
 
         <div className="border-t border-gray-200">
           <dl>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-700">Title</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 {profile.title}
               </dd>
             </div>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-700">Tutor Name</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 {profile.tutorName}
               </dd>
             </div>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-700">Levels</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 {profile.levels.join(", ")}
               </dd>
             </div>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-700">Subjects</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 whitespace-pre-wrap">
                 {Object.values(LevelCategories).map((level) => {
@@ -232,12 +240,6 @@ const YourProfile: NextPageWithLayout = () => {
                     return `${level}: ${profile.subjects[level].join(", ")}\n`;
                   }
                 })}
-              </dd>
-            </div>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-700">Tutor Type</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {profile.type}
               </dd>
             </div>
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

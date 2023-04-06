@@ -202,7 +202,7 @@ const Login: NextPageWithLayout = () => {
               <div className="text-center text-sm">
                 No account?{" "}
                 <Link
-                  href="/register"
+                  href={isTutorLogin ? "/register/tutor" : "/register"}
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Create one
