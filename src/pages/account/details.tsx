@@ -14,13 +14,16 @@ import { requestEmailVerification } from "@/services/auth";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
+import { useRouter } from "next/router";
+import SelectionTab from "@/components/account/SelectionTab";
 
 const AccountDetails: NextPageWithLayout = () => {
   const { isLoading, error, data, refetch } = useQuery("me", getMe);
+  const router = useRouter();
   return (
     <>
       <Head>
-        <title>Account details</title>
+        <title>Your account</title>
       </Head>
       {isLoading ? (
         <Spinner />
@@ -29,9 +32,10 @@ const AccountDetails: NextPageWithLayout = () => {
           <div className="space-y-4">
             <div>
               <h2 className="text-2xl font-semibold leading-6 text-gray-900">
-                Account details
+                Your account
               </h2>
             </div>
+            <SelectionTab />
             <div>
               <label
                 htmlFor="username"
@@ -161,7 +165,7 @@ const AccountDetails: NextPageWithLayout = () => {
                         htmlFor="contactForm"
                         className="font-medium text-gray-900"
                       >
-                        Customer contact (compulsory)
+                        Customer contact (compulsory & for tutors only)
                       </label>
                       <p className="text-gray-500">
                         Get notified when someone expresses their interest in

@@ -42,7 +42,7 @@ export default function PaginateFooter({
 
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-      <div className="flex flex-1 justify-between sm:hidden">
+      <div className="flex flex-1 justify-between sm:hidden items-center">
         <div
           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           onClick={() => {
@@ -50,6 +50,9 @@ export default function PaginateFooter({
           }}
         >
           Previous
+        </div>
+        <div>
+          {page} / {maxPage}
         </div>
         <div
           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
