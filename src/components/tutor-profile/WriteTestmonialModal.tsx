@@ -138,7 +138,7 @@ export default function WriteTestimonialModal({
                           placeholder="Your testimonial"
                           onChange={formik.handleChange}
                           value={formik.values.testimonial}
-                          maxLength={2000}
+                          maxLength={1000}
                           required
                         ></textarea>
                       </div>

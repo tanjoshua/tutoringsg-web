@@ -14,6 +14,7 @@ import {
 import { Tooltip } from "react-tooltip";
 import toast from "react-hot-toast";
 import TestimonialCard from "./TestimonialCard";
+import PaginateFooter from "../shared/PaginateFooter";
 
 export default function TestimonialSection({
   profileId,
@@ -28,13 +29,17 @@ export default function TestimonialSection({
     data: meData,
   } = useQuery("me", getMe);
   let user = meData?.user;
+  const [paginationQuery, setPaginationQuery] = useState({
+    page: 1,
+    limit: 10,
+  });
   const {
     isLoading: testimonialsIsLoading,
     error: testimonialsError,
     data: testimonialData,
     refetch: testimonialRefetch,
-  } = useQuery(["testimonials", profileId], () =>
-    getTestimonials({ profileId, page: 1, limit: 10 })
+  } = useQuery(["testimonials", profileId, paginationQuery], () =>
+    getTestimonials({ profileId, ...paginationQuery })
   );
   const {
     isLoading: existsIsLoading,
@@ -61,74 +66,108 @@ export default function TestimonialSection({
   };
 
   return (
-    <div className="p-4 border-t border-gray-200">
-      <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">
-        Recent Testimonials
-      </h1>
-      <div className="divide-y-2">
-        {!loadingButton &&
-          (user ? (
-            !user.emailVerified ? (
-              <Link
-                href={`/account/details`}
-                className="flex py-6 underline text-indigo-600 hover:text-indigo-800 cursor-pointer"
-              >
-                Please verify your email to leave a testimonial
-              </Link>
-            ) : !existsData?.testimonial ? (
-              <div className="flex py-6">
-                <button
-                  type="button"
-                  className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  onClick={() => setModalOpen(true)}
+    <div>
+      {existsData?.testimonial && (
+        <div className="p-4 border-t border-gray-200">
+          <div className="">
+            <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">
+              Your testimonial
+            </h1>
+            <div>
+              You&apos;ve left a testimonial on{" "}
+              {new Date(existsData.testimonial.createdAt).toLocaleDateString(
+                "en-us",
+                {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                }
+              )}
+            </div>
+            <TestimonialCard
+              testimonial={existsData.testimonial}
+              isUsersTestimonial
+              deleteTestimonial={deleteTestimonialHelper}
+            />
+          </div>
+        </div>
+      )}
+      <div className="p-4 border-t border-gray-200">
+        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl leading-6">
+          Recent Testimonials
+        </h1>
+        <div className="divide-y-2">
+          {!loadingButton &&
+            (user ? (
+              !user.emailVerified ? (
+                <Link
+                  href={`/account/details`}
+                  className="flex py-6 underline text-indigo-600 hover:text-indigo-800 cursor-pointer"
                 >
-                  <PencilSquareIcon
-                    className="-ml-1 mr-2 h-5 w-5 text-gray-700"
-                    aria-hidden="true"
-                  />
-                  Write a testimonial
-                  <WriteTestimonialModal
-                    profileId={profileId}
-                    open={modalOpen}
-                    setOpen={setModalOpen}
-                    refetch={() => {
-                      testimonialRefetch();
-                      existsRefetch();
+                  Please verify your email to leave a testimonial
+                </Link>
+              ) : (
+                !existsData?.testimonial && (
+                  <div className="flex py-6">
+                    <button
+                      type="button"
+                      className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={() => setModalOpen(true)}
+                    >
+                      <PencilSquareIcon
+                        className="-ml-1 mr-2 h-5 w-5 text-gray-700"
+                        aria-hidden="true"
+                      />
+                      Write a testimonial
+                      <WriteTestimonialModal
+                        profileId={profileId}
+                        open={modalOpen}
+                        setOpen={setModalOpen}
+                        refetch={() => {
+                          testimonialRefetch();
+                          existsRefetch();
+                        }}
+                      />
+                    </button>
+                  </div>
+                )
+              )
+            ) : (
+              <Link
+                href={`/login?next=${profileUrlId}`}
+                className="flex underline text-indigo-600 hover:text-indigo-800 cursor-pointer leading-6 py-6"
+              >
+                Log in to leave a testimonial
+              </Link>
+            ))}
+
+          {!testimonialsIsLoading && (
+            <>
+              {testimonialData?.testimonials?.map(
+                (testimonial: any, i: number) => (
+                  <TestimonialCard testimonial={testimonial} key={i} />
+                )
+              )}
+              {testimonialData?.count === 0 && (
+                <div className="text-sm text-gray-500 py-6">
+                  No other testimonials
+                </div>
+              )}
+              <div className="-mx-2">
+                {testimonialData?.count > 0 && (
+                  <PaginateFooter
+                    page={paginationQuery.page}
+                    limit={paginationQuery.limit}
+                    total={testimonialData?.count}
+                    setPage={(page: number) => {
+                      setPaginationQuery((query) => ({ ...query, page }));
                     }}
                   />
-                </button>
-              </div>
-            ) : (
-              <div className="py-6">
-                You&apos;ve left a testimonial on{" "}
-                {new Date(existsData.testimonial.createdAt).toLocaleDateString(
-                  "en-us",
-                  {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  }
                 )}
-                <TestimonialCard
-                  testimonial={existsData.testimonial}
-                  isUsersTestimonial
-                  deleteTestimonial={deleteTestimonialHelper}
-                />
               </div>
-            )
-          ) : (
-            <Link
-              href={`/login?next=${profileUrlId}`}
-              className="flex py-6 underline text-indigo-600 hover:text-indigo-800 cursor-pointer"
-            >
-              Log in to leave a testimonial
-            </Link>
-          ))}
-
-        {!testimonialsIsLoading &&
-          testimonialData?.testimonials?.map((testimonial: any, i: number) => (
-            <TestimonialCard testimonial={testimonial} key={i} />
-          ))}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

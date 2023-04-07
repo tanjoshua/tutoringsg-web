@@ -33,6 +33,23 @@ export const getTestimonials = async ({
   return result.data;
 };
 
+export const getUserTestimonials = async ({
+  page,
+  limit,
+}: {
+  page: number;
+  limit: number;
+}) => {
+  const result = await instance.get(`/tutor/userTestimonials`, {
+    params: {
+      page,
+      limit,
+    },
+  });
+
+  return result.data;
+};
+
 export const postTestimonial = async ({
   tutorProfile,
   title,
