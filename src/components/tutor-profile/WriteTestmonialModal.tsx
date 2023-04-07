@@ -5,7 +5,7 @@ import {
   LinkIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
-import { LockClosedIcon } from "@heroicons/react/20/solid";
+import { LockClosedIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
 import { postTestimonial } from "@/services/testimonial";
@@ -45,12 +45,14 @@ export default function WriteTestimonialModal({
       }
     },
   });
+  const confirmButtonRef = useRef(null);
 
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-10"
+        initialFocus={confirmButtonRef}
         onClose={() => {
           setOpen(false);
         }}
@@ -79,6 +81,15 @@ export default function WriteTestimonialModal({
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
+                <div className="absolute right-2 top-2">
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <XMarkIcon className="h-6 w-6 text-gray-500 hover:text-gray-400" />
+                  </button>
+                </div>
                 <form
                   id="testimonial"
                   className=""
@@ -138,6 +149,7 @@ export default function WriteTestimonialModal({
                     <button
                       className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto"
                       type="submit"
+                      ref={confirmButtonRef}
                     >
                       Confirm
                     </button>

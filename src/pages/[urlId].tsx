@@ -108,7 +108,7 @@ const TutorProfile: NextPageWithLayout = () => {
                 className="lg:flex hidden text-gray-500 hover:text-gray-600 underline leading-6 mt-2"
                 scroll={false}
               >
-                100 testimonials →
+                {profile.testimonialCount} testimonials →
               </Link>
               <div className="lg:flex hidden mt-4">
                 <span className="space-x-2">

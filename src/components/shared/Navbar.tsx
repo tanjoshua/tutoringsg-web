@@ -157,7 +157,7 @@ const Navbar = () => {
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
-                                Account details
+                                Your account
                               </Link>
                             )}
                           </Menu.Item>
@@ -198,7 +198,7 @@ const Navbar = () => {
                                   await logout();
                                   queryClient.refetchQueries("me");
                                   toast.success("Logged out");
-                                  router.push("/");
+                                  router.reload();
                                 }}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
@@ -232,7 +232,11 @@ const Navbar = () => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                href="/login"
+                                href={
+                                  router.pathname === "/"
+                                    ? "/login"
+                                    : `/login?next=${router.asPath}`
+                                }
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"

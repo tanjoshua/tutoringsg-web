@@ -13,6 +13,7 @@ import {
 } from "@/services/testimonial";
 import { Tooltip } from "react-tooltip";
 import toast from "react-hot-toast";
+import TestimonialCard from "./TestimonialCard";
 
 export default function TestimonialSection({
   profileId,
@@ -43,11 +44,21 @@ export default function TestimonialSection({
   } = useQuery(["testimonialExists", profileId], () =>
     testimonialExists({ profileId })
   );
-  console.log(existsData);
 
   const loadingButton = meIsLoading || existsIsLoading;
 
   const [modalOpen, setModalOpen] = useState(false);
+
+  const deleteTestimonialHelper = async (id: string) => {
+    try {
+      await deleteTestimonial({ id });
+      toast.success("Deleted");
+      testimonialRefetch();
+      existsRefetch();
+    } catch {
+      toast.error("Could not delete");
+    }
+  };
 
   return (
     <div className="p-4 border-t border-gray-200">
@@ -57,7 +68,14 @@ export default function TestimonialSection({
       <div className="divide-y-2">
         {!loadingButton &&
           (user ? (
-            !existsData?.testimonial ? (
+            !user.emailVerified ? (
+              <Link
+                href={`/account/details`}
+                className="flex py-6 underline text-indigo-600 hover:text-indigo-800 cursor-pointer"
+              >
+                Please verify your email to leave a testimonial
+              </Link>
+            ) : !existsData?.testimonial ? (
               <div className="flex py-6">
                 <button
                   type="button"
@@ -91,6 +109,11 @@ export default function TestimonialSection({
                     day: "numeric",
                   }
                 )}
+                <TestimonialCard
+                  testimonial={existsData.testimonial}
+                  isUsersTestimonial
+                  deleteTestimonial={deleteTestimonialHelper}
+                />
               </div>
             )
           ) : (
@@ -104,48 +127,7 @@ export default function TestimonialSection({
 
         {!testimonialsIsLoading &&
           testimonialData?.testimonials?.map((testimonial: any, i: number) => (
-            <div className="flex py-6" key={i}>
-              <div className="relative h-24 w-24 flex-shrink-0">
-                <div className="text-gray-900">{testimonial.authorName}</div>
-                <div className="text-gray-600 mt-2">
-                  {new Date(testimonial.createdAt).toLocaleDateString("en-us", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </div>
-              </div>
-
-              <div className="ml-4 flex flex-1 flex-col">
-                <div className="flex justify-between items-center">
-                  <div className="text-gray-800 font-semibold tracking-wide">
-                    {testimonial.title}
-                  </div>
-                  {testimonial.author == user.id && (
-                    <>
-                      <TrashIcon
-                        data-tooltip-id="delete"
-                        className="w-6 h-6 text-red-500 cursor-pointer"
-                        onClick={async () => {
-                          try {
-                            await deleteTestimonial({ id: testimonial.id });
-                            toast.success("Deleted");
-                            testimonialRefetch();
-                            existsRefetch();
-                          } catch {
-                            toast.error("Could not delete");
-                          }
-                        }}
-                      />
-                      <Tooltip id="delete">Delete testimonial</Tooltip>
-                    </>
-                  )}
-                </div>
-                <div className="mt-2 text-gray-600">
-                  {testimonial.testimonial}
-                </div>
-              </div>
-            </div>
+            <TestimonialCard testimonial={testimonial} key={i} />
           ))}
       </div>
     </div>

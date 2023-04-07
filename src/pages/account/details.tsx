@@ -20,7 +20,7 @@ const AccountDetails: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Account details</title>
+        <title>Your account</title>
       </Head>
       {isLoading ? (
         <Spinner />

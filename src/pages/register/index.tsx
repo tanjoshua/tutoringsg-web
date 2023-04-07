@@ -99,7 +99,7 @@ const Register: NextPageWithLayout = () => {
             {isTutorRegister && (
               <p className="text-center text-gray-500">
                 You can also convert an existing account into a tutor account
-                under Account Details
+                under &apos;Your Account&apos;.
               </p>
             )}
           </div>
