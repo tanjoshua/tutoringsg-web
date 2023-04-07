@@ -65,8 +65,7 @@ const Register: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Register</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>{isTutorRegister ? "Tutor Register" : "Client Register"}</title>
       </Head>
       <div className="flex min-h-full items-center justify-center sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-6">

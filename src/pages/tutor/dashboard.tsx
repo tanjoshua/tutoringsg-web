@@ -127,7 +127,7 @@ const TutorProfile: NextPageWithLayout = () => {
   return (
     <div>
       <Head>
-        <title>{`Tutor Dashboard`}</title>
+        <title>Apply to Requests</title>
       </Head>
       <TutorRequestModal
         open={requestDetailsModalOpen}

@@ -74,8 +74,7 @@ const Login: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Login</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>{isTutorLogin ? "Tutor Login" : "Client Login"}</title>
       </Head>
       <ForgetPasswordModal
         open={forgetPasswordModalIsOpen}

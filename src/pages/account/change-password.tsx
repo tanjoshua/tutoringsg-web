@@ -29,7 +29,7 @@ const ChangePassword: NextPageWithLayout = () => {
   return (
     <div>
       <Head>
-        <title>Change password</title>
+        <title>Change Password</title>
       </Head>
       <form className="px-8 pt-6 pb-8 mb-4" onSubmit={formik.handleSubmit}>
         <div className="mb-4">

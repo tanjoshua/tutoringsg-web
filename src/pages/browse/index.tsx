@@ -135,12 +135,12 @@ const BrowseTutors: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>{`Browse tutors`}</title>
+        <title>{`Browse Tutors`}</title>
       </Head>
       <div className="bg-white px-4 py-5 mx-auto">
         <div className="flex items-baseline justify-between border-b border-gray-200 pb-6">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-            Browse tutors
+            Browse Tutors
           </h1>
 
           <div className="flex items-center">
