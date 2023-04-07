@@ -15,20 +15,24 @@ export default function WriteTestimonialModal({
   open,
   setOpen,
   profileId,
+  refetch,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   profileId: string;
+  refetch: Function;
 }) {
   const formik = useFormik({
     initialValues: {
       title: "",
       testimonial: "",
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         await postTestimonial({ ...values, tutorProfile: profileId });
         setOpen(false);
+        resetForm();
+        refetch();
         toast.success("Testimonial created");
       } catch (error) {
         if (axios.isAxiosError(error)) {

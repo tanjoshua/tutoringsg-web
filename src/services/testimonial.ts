@@ -1,5 +1,18 @@
 import instance from "./axiosInstance";
 
+export const testimonialExists = async ({
+  profileId,
+}: {
+  profileId: string;
+}) => {
+  const result = await instance.get(`/tutor/testimonial/exists`, {
+    params: {
+      profileId,
+    },
+  });
+
+  return result.data;
+};
 export const getTestimonials = async ({
   profileId,
   page,
@@ -9,13 +22,15 @@ export const getTestimonials = async ({
   page: number;
   limit: number;
 }) => {
-  return instance.get(`/tutor/testimonials`, {
+  const result = await instance.get(`/tutor/testimonials`, {
     params: {
       page,
       limit,
       profileId,
     },
   });
+
+  return result.data;
 };
 
 export const postTestimonial = async ({
