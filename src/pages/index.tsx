@@ -63,7 +63,6 @@ const Home: NextPageWithLayout = () => {
           content="Commission free tutor marketplace and matching service for Singapore"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <div className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu  blur-3xl sm:top-[-20rem]">

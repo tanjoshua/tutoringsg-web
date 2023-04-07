@@ -73,7 +73,7 @@ const TutorProfile: NextPageWithLayout = () => {
     return (
       <div>
         <Head>
-          <title>{profile.tutorName} - Tutor Profile</title>
+          <title>{profile.tutorName} · Tutor</title>
         </Head>
 
         <ShareModal

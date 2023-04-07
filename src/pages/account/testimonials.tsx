@@ -44,7 +44,7 @@ const AccountTestimonials: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Your account</title>
+        <title>Your Testimonials</title>
       </Head>
       {isLoading ? (
         <Spinner />
