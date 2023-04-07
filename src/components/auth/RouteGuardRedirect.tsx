@@ -27,7 +27,11 @@ const RouteGuardRedirect = ({
   } = useQuery("userTutorProfile", getUserTutorProfile, {
     enabled: !!data?.user && !!data?.user?.isTutor,
   });
-  const [safe, setSafe] = useState(false);
+  let safeInitialValue = false;
+  if (!ifNotLoggedIn && !ifNotTutor && !ifLoggedIn && !ifNoTutorProfile) {
+    safeInitialValue = true;
+  }
+  const [safe, setSafe] = useState(safeInitialValue);
 
   useEffect(() => {
     if (!isLoading && !error) {
@@ -36,6 +40,11 @@ const RouteGuardRedirect = ({
       if (isLoggedIn) {
         // logged in
         if (ifLoggedIn) {
+          if (router.query.next) {
+            router.replace(router.query.next as string);
+            return;
+          }
+
           const redirectToClient =
             router.pathname === "/login" || router.pathname === "/register";
           if (redirectToClient) {
@@ -63,7 +72,7 @@ const RouteGuardRedirect = ({
       } else {
         // not logged in
         if (ifNotLoggedIn || ifNotTutor || ifNoTutorProfile) {
-          router.replace("/login?next=" + router.asPath);
+          router.replace("/login");
           return;
         }
       }
