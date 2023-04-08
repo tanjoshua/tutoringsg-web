@@ -43,14 +43,14 @@ const Navbar = () => {
       ]
     : [
         {
-          name: "Request a Tutor",
-          href: "/request/make",
-          current: router.pathname === "/request/make",
-        },
-        {
           name: "Browse Tutors",
           href: "/browse",
           current: router.pathname === "/browse",
+        },
+        {
+          name: "Request a Tutor",
+          href: "/request/make",
+          current: router.pathname === "/request/make",
         },
         {
           name: "For Tutors",
