@@ -65,7 +65,7 @@ export default function AppCard({
 
       <div className="ml-4 flex flex-1 flex-col">
         <div>
-          <div className="flex justify-between items-start text-base font-medium text-gray-900">
+          <div className="flex justify-between items-start text-base text-gray-900">
             <div>
               <div className="text-xs sm:text-sm">{tutorProfile.tutorName}</div>
               <h1 className="sm:text-lg font-medium tracking-tight">
@@ -117,7 +117,7 @@ export default function AppCard({
                 {tutorProfile.pricing.rate}/hr
               </div>
             </div>
-            {tutorProfile.qualifications}
+            <div className="mt-2">{tutorProfile.qualifications}</div>
           </p>
         </div>
         <div className="flex flex-1 items-end justify-between text-sm mt-2">

@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "./_app";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import Layout from "../components/layouts/Layout";
 import { useQuery } from "react-query";
 import { getTutorProfile, getUserTutorProfile } from "@/services/tutor";
@@ -21,6 +21,7 @@ import ContactModal from "@/components/tutor-profile/ContactModal";
 import Link from "next/link";
 import Image from "next/image";
 import TestimonialSection from "@/components/tutor-profile/TestimonialSection";
+import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 
 const TutorProfile: NextPageWithLayout = () => {
   const router = useRouter();
@@ -32,6 +33,7 @@ const TutorProfile: NextPageWithLayout = () => {
   );
   const [shareModalIsOpen, setShareModalIsOpen] = useState(false);
   const [contactModalIsOpen, setContactModalIsOpen] = useState(false);
+  const testRef = useRef<HTMLDivElement>(null);
 
   if (isLoading) {
     return <></>;
@@ -105,10 +107,11 @@ const TutorProfile: NextPageWithLayout = () => {
               </h1>
               <Link
                 href="#testimonials"
-                className="lg:flex hidden text-gray-500 hover:text-gray-600 underline leading-6 mt-2"
+                className="lg:flex lg:space-x-1 items-center hidden text-gray-500 hover:text-gray-600 underline leading-6 mt-2"
                 scroll={false}
               >
-                {profile.testimonialCount} testimonials →
+                <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
+                <div>{profile.testimonialCount} testimonials →</div>
               </Link>
               <div className="lg:flex hidden mt-4">
                 <span className="space-x-2">
@@ -173,10 +176,11 @@ const TutorProfile: NextPageWithLayout = () => {
               <div className="lg:hidden pb-4 space-y-4">
                 <Link
                   href="#testimonials"
-                  className="text-gray-500 hover:text-gray-600 underline leading-6 "
+                  className="flex space-x-1 items-center text-gray-500 hover:text-gray-600 underline leading-6 "
                   scroll={false}
                 >
-                  100 testimonials →
+                  <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
+                  <div>{profile.testimonialCount} testimonials →</div>
                 </Link>
                 <div className="flex space-x-2">
                   <span className="lg:ml-3 space-x-2">
@@ -278,7 +282,7 @@ const TutorProfile: NextPageWithLayout = () => {
               </dl>
             </div>
 
-            <div id="testimonials">
+            <div id="testimonials" ref={testRef}>
               <TestimonialSection
                 profileId={profile.id}
                 profileUrlId={profile.urlId}

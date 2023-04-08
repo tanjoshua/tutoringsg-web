@@ -1,11 +1,21 @@
 import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import {
+  ChatBubbleBottomCenterTextIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
 import { useQuery } from "react-query";
 import { getTutorApplication } from "@/services/tutorRequest";
 import { ApplicationState } from "@/utils/enums";
-import { PhoneIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import {
+  MapPinIcon,
+  PhoneIcon,
+  TagIcon,
+  UserIcon,
+  XMarkIcon,
+} from "@heroicons/react/20/solid";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function TutorDetailsModal({
   id,
@@ -79,7 +89,52 @@ export default function TutorDetailsModal({
                         </div>
                         <h3 className="text-xl font-semibold leading-6 text-gray-900">
                           {data?.tutorApplication?.tutorProfile?.title}
+                          <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
+                            <div className="mt-2 flex items-center text-sm text-gray-500">
+                              <TagIcon
+                                className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                                aria-hidden="true"
+                              />
+                              {data?.tutorApplication?.tutorProfile?.type}
+                            </div>
+                            <div className="mt-2 flex items-center text-sm text-gray-500">
+                              <UserIcon
+                                className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                                aria-hidden="true"
+                              />
+                              {data?.tutorApplication?.tutorProfile?.gender}
+                            </div>
+                            <div className="mt-2 flex items-center text-sm text-gray-500">
+                              <MapPinIcon
+                                className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                                aria-hidden="true"
+                              />
+                              {data?.tutorApplication?.tutorProfile?.regions
+                                .length == 5
+                                ? "All regions"
+                                : data?.tutorApplication?.tutorProfile?.regions.join(
+                                    ", "
+                                  )}
+                            </div>
+                          </div>
                         </h3>
+                        <Link
+                          href={`/${data?.tutorApplication?.tutorProfile.urlId}#testimonials`}
+                          className="mt-4 text-gray-500 text-sm flex space-x-1 items-center underline"
+                          target="_blank"
+                        >
+                          <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
+                          <div>
+                            {
+                              data?.tutorApplication?.tutorProfile
+                                .testimonialCount
+                            }{" "}
+                            testimonial
+                            {data?.tutorApplication?.tutorProfile
+                              .testimonialCount > 1 && "s"}{" "}
+                            →
+                          </div>
+                        </Link>
                         <button
                           type="button"
                           className="mt-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 "
@@ -100,6 +155,7 @@ export default function TutorDetailsModal({
                         </button>
                       </div>
                     </div>
+
                     <div className="">
                       <button
                         onClick={() => {
