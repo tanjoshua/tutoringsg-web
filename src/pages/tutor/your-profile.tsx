@@ -108,15 +108,22 @@ const YourProfile: NextPageWithLayout = () => {
                 setUploadModalIsOpen(true);
               }}
             >
-              <Image
-                alt="profile picture"
-                fill
-                src={
-                  profile.profilePic?.location ||
-                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                }
-                className="group-hover:opacity-80"
-              />
+              {profile.profilePic?.location ? (
+                <Image
+                  alt="profile picture"
+                  fill
+                  src={
+                    profile.profilePic?.location ||
+                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                  }
+                  className="group-hover:opacity-80"
+                />
+              ) : (
+                <div className="text-gray-500 flex justify-center text-center h-full items-center bg-gray-100">
+                  Click to upload profile picture
+                </div>
+              )}
+
               <div className="hidden absolute top-2 right-2 group-hover:block">
                 <PencilIcon
                   className="h-6 w-6 text-gray-400"
