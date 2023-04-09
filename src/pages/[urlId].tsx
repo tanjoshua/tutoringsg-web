@@ -167,8 +167,8 @@ const TutorProfile: NextPageWithLayout = () => {
                       className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                       aria-hidden="true"
                     />
-                    {profile.regions.length == 5
-                      ? "All regions"
+                    {profile.regions.length == 6
+                      ? "All regions & online"
                       : profile.regions.join(", ")}
                   </div>
                 </div>

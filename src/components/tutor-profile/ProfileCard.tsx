@@ -64,7 +64,7 @@ export default function ProfileCard({
             <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
             <div>
               {tutorProfile.testimonialCount} testimonial
-              {tutorProfile.testimonialCount > 1 && "s"}
+              {tutorProfile.testimonialCount !== 1 && "s"}
             </div>
           </Link>
           <div className="mt-1 text-sm text-gray-500 line-clamp-4 mb-1">
@@ -81,8 +81,8 @@ export default function ProfileCard({
                   className="h-5 w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
                 />
-                {tutorProfile.regions.length == 5
-                  ? "All regions"
+                {tutorProfile.regions.length == 6
+                  ? "All regions & online"
                   : tutorProfile.regions.join(", ")}
               </div>
             </div>

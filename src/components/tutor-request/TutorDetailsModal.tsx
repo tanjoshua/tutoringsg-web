@@ -110,8 +110,8 @@ export default function TutorDetailsModal({
                                 aria-hidden="true"
                               />
                               {data?.tutorApplication?.tutorProfile?.regions
-                                .length == 5
-                                ? "All regions"
+                                .length == 6
+                                ? "All regions & online"
                                 : data?.tutorApplication?.tutorProfile?.regions.join(
                                     ", "
                                   )}
