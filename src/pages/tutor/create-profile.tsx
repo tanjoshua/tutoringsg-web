@@ -167,7 +167,7 @@ const CreateProfile: NextPageWithLayout = () => {
         </div>
         <div className="mb-4">
           <label className="block mb-2 font-medium text-gray-900">
-            Regions taught
+            Regions taught / Online tuition
           </label>
           <div>
             <Select
