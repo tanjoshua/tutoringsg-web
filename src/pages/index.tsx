@@ -59,9 +59,15 @@ const Home: NextPageWithLayout = () => {
           Find a Private Tutor - Tutor Marketplace and Matching Service
         </title>
         <meta
+          property="og:title"
+          content="tutoring.sg - Find a Private Tutor"
+        ></meta>
+        <meta
           name="description"
-          content="Commission free tutor marketplace and matching service for Singapore"
-        />
+          property="og:title"
+          content="Commission free tutor marketplace and matching service for Singapore. Use tutoring.sg to find a tutor or look for students"
+        ></meta>
+        <meta property="og:type" content="website" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div>
