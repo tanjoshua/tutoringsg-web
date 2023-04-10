@@ -176,9 +176,9 @@ const MakeTutorRequest: NextPageWithLayout = () => {
                       isDisabled={!values.level}
                       options={getSubjectOptions(values.level?.value || "")}
                     />
-                    <p className="mt-2 text-sm text-gray-500">
+                    {/* <p className="mt-2 text-sm text-gray-500">
                       You can also create new options that are not listed.
-                    </p>
+                    </p> */}
                   </div>
 
                   <div>
