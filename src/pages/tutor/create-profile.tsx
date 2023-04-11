@@ -297,6 +297,7 @@ const CreateProfile: NextPageWithLayout = () => {
                 className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none block p-2.5"
                 placeholder="0.00"
                 onChange={formik.handleChange}
+                required
                 value={formik.values.pricing.rate}
               />
             </div>

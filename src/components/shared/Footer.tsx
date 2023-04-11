@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-white w-full">
+    <footer className="absolute bottom-0 bg-white w-full">
       <div className="p-4 md:flex md:items-center md:justify-between text-gray-500">
         <span className="text-sm sm:text-center ">
           © 2023 tutoring.sg All Rights Reserved.
