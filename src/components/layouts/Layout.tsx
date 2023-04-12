@@ -10,8 +10,7 @@ const Layout = (props: Props) => {
     <div className="relative min-h-screen">
       <Navbar />
       <Toaster />
-      <main>{props.children}</main>
-      <Footer />
+      <main className="">{props.children}</main>
     </div>
   );
 };
