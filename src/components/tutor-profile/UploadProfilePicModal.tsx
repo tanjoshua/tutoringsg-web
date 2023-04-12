@@ -14,7 +14,7 @@ import { PhoneIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import Dropzone from "react-dropzone";
 import Cropper, { Area } from "react-easy-crop";
 import { toast } from "react-hot-toast";
-import { uploadProfilePicture } from "@/services/tutor";
+import { deleteProfilePicture, uploadProfilePicture } from "@/services/tutor";
 import { generateBlob } from "@/utils/cropImage";
 
 export default function UploadProfilePicModal({
@@ -45,7 +45,11 @@ export default function UploadProfilePicModal({
       await uploadProfilePicture(blob as Blob);
       refetch();
     }
-    return null;
+  };
+
+  const deleteImage = async () => {
+    await deleteProfilePicture();
+    refetch();
   };
 
   return (
@@ -152,7 +156,7 @@ export default function UploadProfilePicModal({
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto"
+                    className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:ml-3 sm:w-auto"
                     onClick={() => {
                       setOpen(false);
                       toast.promise(uploadImage(), {
@@ -166,10 +170,17 @@ export default function UploadProfilePicModal({
                   </button>
                   <button
                     type="button"
-                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    onClick={() => setOpen(false)}
+                    className="mt-3 inline-flex w-full justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 sm:mt-0 sm:w-auto"
+                    onClick={() => {
+                      setOpen(false);
+                      toast.promise(deleteImage(), {
+                        loading: "Deleting",
+                        success: "Image Deleted",
+                        error: "Error Deleting",
+                      });
+                    }}
                   >
-                    Close
+                    Delete Current Picture
                   </button>
                 </div>
               </Dialog.Panel>

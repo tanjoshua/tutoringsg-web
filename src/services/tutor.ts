@@ -174,3 +174,8 @@ export const uploadProfilePicture = async (image: Blob) => {
   const result = await instance.post("tutor/uploadProfilePicture", formData);
   return result.data;
 };
+
+export const deleteProfilePicture = async () => {
+  const result = await instance.post("tutor/deleteProfilePicture");
+  return result.data;
+};
