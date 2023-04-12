@@ -113,7 +113,7 @@ const BrowseTutors: NextPageWithLayout = () => {
     }
   }, [router]);
   const { isLoading, error, data, refetch, isRefetching } = useQuery(
-    ["getTutorRequest", filters],
+    ["getPublicProfiles", filters],
     () => getPublicTutorProfiles({ ...filters, limit: pageLimit })
   );
   const setPage = (page: number) => {

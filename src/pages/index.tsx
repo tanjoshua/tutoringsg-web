@@ -19,6 +19,9 @@ import {
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useQuery } from "react-query";
+import { samplePublicTutorProfiles } from "@/services/tutor";
+import SmallProfileCard from "@/components/tutor-profile/SmallProfileCard";
 
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
@@ -51,6 +54,11 @@ const Home: NextPageWithLayout = () => {
       }
     },
   });
+  const { isLoading, error, data, refetch, isRefetching } = useQuery(
+    ["samplePublicProfiles"],
+    () => samplePublicTutorProfiles(),
+    { refetchOnWindowFocus: false }
+  );
 
   return (
     <>
@@ -112,21 +120,6 @@ const Home: NextPageWithLayout = () => {
                 100% commission free for both students and tutors. Browse the
                 tutor marketplace or make a request. No account necessary.
               </p>
-              <div className="mt-6 flex items-center justify-center gap-x-6 lg:justify-start">
-                <Link
-                  href="/browse"
-                  className="rounded-md bg-indigo-600 px-3.5 py-1.5 text-sm md:text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Browse tutors
-                </Link>
-                <Link
-                  href="/request/make"
-                  className="text-base font-semibold leading-7 text-gray-900"
-                >
-                  Make a request
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
               <div className="mt-6 flex justify-center lg:justify-start">
                 <div className="relative rounded-full text-sm leading-6 text-gray-600">
                   If you&apos;re a tutor, join our platform!{" "}
@@ -241,6 +234,23 @@ const Home: NextPageWithLayout = () => {
                 </linearGradient>
               </defs>
             </svg>
+          </div>
+        </div>
+        <div className="relative px-6 lg:px-8">
+          <div className="border-t border-1 py-8 max-w-7xl mx-auto">
+            <div className="flex justify-between items-end">
+              <div className="text-center font-bold text-2xl">Our tutors </div>
+              <Link className="" href="/browse">
+                See all &rarr;
+              </Link>
+            </div>
+            <div className="flex overflow-auto divide-x-2 pb-2 -ml-4 mt-8">
+              {!isLoading &&
+                !error &&
+                data?.profiles?.map((profile: any, i: number) => (
+                  <SmallProfileCard tutorProfile={profile} key={i} />
+                ))}
+            </div>
           </div>
         </div>
         <div className="relative px-6 lg:px-8">

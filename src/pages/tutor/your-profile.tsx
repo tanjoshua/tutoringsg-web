@@ -100,6 +100,13 @@ const YourProfile: NextPageWithLayout = () => {
             . Copy this link and share it with others!
           </div>
         </div>
+        {!profile.profilePic && (
+          <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 ">
+            <div className="text-sm">
+              Upload a profile picture to get featured on the front page!
+            </div>
+          </div>
+        )}
         <div className="lg:flex lg:items-center lg:justify-between px-4 py-5 sm:px-6">
           <div className="min-w-0 flex-1 lg:flex lg:items-center space-y-4 lg:space-x-6">
             <div
@@ -119,7 +126,7 @@ const YourProfile: NextPageWithLayout = () => {
                   className="group-hover:opacity-80"
                 />
               ) : (
-                <div className="text-gray-500 flex justify-center text-center h-full items-center bg-gray-100">
+                <div className="text-gray-500 flex justify-center text-center text-sm h-full items-center bg-gray-100 p-2">
                   Click to upload profile picture
                 </div>
               )}

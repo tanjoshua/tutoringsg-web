@@ -123,6 +123,11 @@ export const getTutorProfile = async ({ urlId }: { urlId: string }) => {
   return result.data;
 };
 
+export const samplePublicTutorProfiles = async () => {
+  const result = await instance.get("/tutor/samplePublicProfiles");
+  return result.data;
+};
+
 export const getPublicTutorProfiles = async ({
   search,
   regions,
