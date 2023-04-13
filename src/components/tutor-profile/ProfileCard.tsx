@@ -1,20 +1,8 @@
-import {
-  BookmarkIcon,
-  BookmarkSlashIcon,
-  EyeIcon,
-  EyeSlashIcon,
-  XCircleIcon,
-  PhoneIcon,
-  CurrencyDollarIcon,
-  ChatBubbleBottomCenterTextIcon,
-} from "@heroicons/react/24/outline";
-import { updateTutorApplicationState } from "@/services/tutorRequest";
-import { ApplicationState } from "@/utils/enums";
 import { MapPinIcon, TagIcon, UserIcon } from "@heroicons/react/20/solid";
-import ContactModal from "./ContactModal";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Rating from "./Rating";
 
 export default function ProfileCard({
   tutorProfile,
@@ -58,14 +46,13 @@ export default function ProfileCard({
             </div>
           </div>
           <Link
-            href={`/${tutorProfile.urlId}#testimonials`}
-            className="text-gray-500 text-sm flex space-x-1 items-center underline"
+            href={`/${tutorProfile.urlId}#ratings`}
+            className="flex space-x-1 items-center"
           >
-            <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
-            <div>
-              {tutorProfile.testimonialCount} testimonial
-              {tutorProfile.testimonialCount !== 1 && "s"}
-            </div>
+            <Rating
+              rating={tutorProfile.totalRating / tutorProfile.ratingCount}
+              rateCount={tutorProfile.ratingCount}
+            />
           </Link>
           <div className="mt-1 text-sm text-gray-500 line-clamp-4 mb-1">
             <div className="sm:flex sm:items-center sm:space-x-1">

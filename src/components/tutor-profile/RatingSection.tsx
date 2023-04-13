@@ -3,23 +3,21 @@ import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import WriteTestimonialModal from "./WriteTestmonialModal";
+import WriteRatingModal from "./WriteRatingModal";
 import { useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import {
-  deleteTestimonial,
-  getTestimonials,
-  testimonialExists,
-} from "@/services/testimonial";
+import { deleteRating, getRatings, ratingExists } from "@/services/rating";
 import { Tooltip } from "react-tooltip";
 import toast from "react-hot-toast";
-import TestimonialCard from "./TestimonialCard";
+import RatingCard from "./RatingCard";
 import PaginateFooter from "../shared/PaginateFooter";
 
-export default function TestimonialSection({
+export default function RatingSection({
+  profileRefetch,
   profileId,
   profileUrlId,
 }: {
+  profileRefetch: Function;
   profileUrlId: string;
   profileId: string;
 }) {
@@ -34,31 +32,30 @@ export default function TestimonialSection({
     limit: 10,
   });
   const {
-    isLoading: testimonialsIsLoading,
-    error: testimonialsError,
-    data: testimonialData,
-    refetch: testimonialRefetch,
-  } = useQuery(["testimonials", profileId, paginationQuery], () =>
-    getTestimonials({ profileId, ...paginationQuery })
+    isLoading: ratingsIsLoading,
+    error: ratingsError,
+    data: ratingData,
+    refetch: ratingRefetch,
+  } = useQuery(["rating", profileId, paginationQuery], () =>
+    getRatings({ profileId, ...paginationQuery })
   );
   const {
     isLoading: existsIsLoading,
     error: existsError,
     data: existsData,
     refetch: existsRefetch,
-  } = useQuery(["testimonialExists", profileId], () =>
-    testimonialExists({ profileId })
-  );
+  } = useQuery(["ratingExists", profileId], () => ratingExists({ profileId }));
 
   const loadingButton = meIsLoading || existsIsLoading;
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  const deleteTestimonialHelper = async (id: string) => {
+  const deleteRatingHelper = async (id: string) => {
     try {
-      await deleteTestimonial({ id });
+      await deleteRating({ id });
       toast.success("Deleted");
-      testimonialRefetch();
+      profileRefetch();
+      ratingRefetch();
       existsRefetch();
     } catch {
       toast.error("Could not delete");
@@ -67,15 +64,15 @@ export default function TestimonialSection({
 
   return (
     <div>
-      {existsData?.testimonial && (
+      {existsData?.rating && (
         <div className="p-4 border-t border-gray-200">
           <div className="">
             <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">
-              Your testimonial
+              Your rating
             </h1>
             <div>
-              You&apos;ve left a testimonial on{" "}
-              {new Date(existsData.testimonial.createdAt).toLocaleDateString(
+              You&apos;ve left a rating on{" "}
+              {new Date(existsData.rating.createdAt).toLocaleDateString(
                 "en-us",
                 {
                   year: "numeric",
@@ -84,17 +81,17 @@ export default function TestimonialSection({
                 }
               )}
             </div>
-            <TestimonialCard
-              testimonial={existsData.testimonial}
-              isUsersTestimonial
-              deleteTestimonial={deleteTestimonialHelper}
+            <RatingCard
+              rating={existsData.rating}
+              isUsersRating
+              deleteRating={deleteRatingHelper}
             />
           </div>
         </div>
       )}
       <div className="p-4 border-t border-gray-200">
         <h1 className="text-xl font-bold text-gray-900 sm:text-2xl leading-6">
-          Recent Testimonials
+          Recent Ratings
         </h1>
         <div className="divide-y-2">
           {!loadingButton &&
@@ -104,10 +101,10 @@ export default function TestimonialSection({
                   href={`/account/details`}
                   className="flex py-6 underline text-indigo-600 hover:text-indigo-800 cursor-pointer"
                 >
-                  Please verify your email to leave a testimonial
+                  Please verify your email to leave a rating
                 </Link>
               ) : (
-                !existsData?.testimonial && (
+                !existsData?.rating && (
                   <div className="flex py-6">
                     <button
                       type="button"
@@ -118,13 +115,14 @@ export default function TestimonialSection({
                         className="-ml-1 mr-2 h-5 w-5 text-gray-700"
                         aria-hidden="true"
                       />
-                      Write a testimonial
-                      <WriteTestimonialModal
+                      Leave a Rating
+                      <WriteRatingModal
                         profileId={profileId}
                         open={modalOpen}
                         setOpen={setModalOpen}
                         refetch={() => {
-                          testimonialRefetch();
+                          profileRefetch();
+                          ratingRefetch();
                           existsRefetch();
                         }}
                       />
@@ -137,28 +135,26 @@ export default function TestimonialSection({
                 href={`/login?next=${profileUrlId}`}
                 className="flex underline text-indigo-600 hover:text-indigo-800 cursor-pointer leading-6 py-6"
               >
-                Log in to leave a testimonial
+                Log in to leave a rating
               </Link>
             ))}
 
-          {!testimonialsIsLoading && (
+          {!ratingsIsLoading && (
             <>
-              {testimonialData?.testimonials?.map(
-                (testimonial: any, i: number) => (
-                  <TestimonialCard testimonial={testimonial} key={i} />
-                )
-              )}
-              {testimonialData?.count === 0 && (
+              {ratingData?.ratings?.map((rating: any, i: number) => (
+                <RatingCard rating={rating} key={i} />
+              ))}
+              {ratingData?.count === 0 && (
                 <div className="text-sm text-gray-500 py-6">
-                  No other testimonials
+                  No other ratings
                 </div>
               )}
               <div className="-mx-2">
-                {testimonialData?.count > 0 && (
+                {ratingData?.count > 0 && (
                   <PaginateFooter
                     page={paginationQuery.page}
                     limit={paginationQuery.limit}
-                    total={testimonialData?.count}
+                    total={ratingData?.count}
                     setPage={(page: number) => {
                       setPaginationQuery((query) => ({ ...query, page }));
                     }}

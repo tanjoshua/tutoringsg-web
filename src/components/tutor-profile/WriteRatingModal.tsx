@@ -5,13 +5,56 @@ import {
   LinkIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
-import { LockClosedIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { LockClosedIcon, StarIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
-import { postTestimonial } from "@/services/testimonial";
+import { postRating } from "@/services/rating";
 import axios from "axios";
 
-export default function WriteTestimonialModal({
+const fillClasses = "h-8 w-8 cursor-pointer text-yellow-400";
+const unfilledClasses = "h-8 w-8 cursor-pointer text-gray-300";
+
+export function RatingSelect({
+  rating,
+  setRating,
+}: {
+  rating: number;
+  setRating: Function;
+}) {
+  const [hoverValue, setHoverValue] = useState<number | undefined>(undefined);
+  const stars = Array(5).fill(0);
+  const handleClick = (value: number) => {
+    setRating(value);
+  };
+
+  const handleMouseOver = (newHoverValue: number) => {
+    setHoverValue(newHoverValue);
+  };
+
+  const handleMouseLeave = () => {
+    setHoverValue(undefined);
+  };
+
+  return (
+    <div className="flex  justify-center items-center ">
+      {stars.map((_, index) => {
+        return (
+          <StarIcon
+            className={
+              (hoverValue || rating) > index ? fillClasses : unfilledClasses
+            }
+            key={index}
+            onClick={() => handleClick(index + 1)}
+            onMouseOver={() => handleMouseOver(index + 1)}
+            onMouseLeave={handleMouseLeave}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+export default function WriteRatingModal({
   open,
   setOpen,
   profileId,
@@ -24,23 +67,23 @@ export default function WriteTestimonialModal({
 }) {
   const formik = useFormik({
     initialValues: {
-      title: "",
       testimonial: "",
+      rating: 0,
     },
     onSubmit: async (values, { resetForm }) => {
       try {
-        await postTestimonial({ ...values, tutorProfile: profileId });
+        await postRating({ ...values, tutorProfile: profileId });
         setOpen(false);
         resetForm();
         refetch();
-        toast.success("Testimonial created");
+        toast.success("Rating posted");
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast.error(
-            error.response?.data?.message || "Could not create testimonial"
+            error.response?.data?.message || "Could not create rating"
           );
         } else {
-          toast.error("Could not create testimonial");
+          toast.error("Could not create rating");
         }
       }
     },
@@ -90,13 +133,9 @@ export default function WriteTestimonialModal({
                     <XMarkIcon className="h-6 w-6 text-gray-500 hover:text-gray-400" />
                   </button>
                 </div>
-                <form
-                  id="testimonial"
-                  className=""
-                  onSubmit={formik.handleSubmit}
-                >
+                <form id="rating" className="" onSubmit={formik.handleSubmit}>
                   <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div className="sm:flex sm:items-start">
+                    <div className="sm:flex sm:items-center">
                       <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
                         <PencilSquareIcon
                           className="h-6 w-6 text-gray-600"
@@ -108,23 +147,20 @@ export default function WriteTestimonialModal({
                           as="h3"
                           className="text-lg font-medium leading-6 text-gray-900"
                         >
-                          Write a testimonial
+                          Leave a Rating
                         </Dialog.Title>
                       </div>
                     </div>
                     <div className="mt-4 pt-4 space-y-4 flex flex-col border-t">
                       <div className="mb-4">
                         <label className="text-start block mb-2 font-medium text-gray-900">
-                          Title
+                          Your Rating
                         </label>
-                        <input
-                          type="text"
-                          id="title"
-                          className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
-                          placeholder="Eg. Amazing tutor! Worth every penny"
-                          onChange={formik.handleChange}
-                          value={formik.values.title}
-                          required
+                        <RatingSelect
+                          rating={formik.values.rating}
+                          setRating={(rating: number) =>
+                            formik.setFieldValue("rating", rating)
+                          }
                         />
                       </div>
                       <div className="mb-4">

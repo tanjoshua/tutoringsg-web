@@ -20,8 +20,8 @@ import { LevelCategories } from "@/utils/options/levels";
 import ContactModal from "@/components/tutor-profile/ContactModal";
 import Link from "next/link";
 import Image from "next/image";
-import TestimonialSection from "@/components/tutor-profile/TestimonialSection";
-import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
+import RatingSection from "@/components/tutor-profile/RatingSection";
+import Rating from "@/components/tutor-profile/Rating";
 
 const TutorProfile: NextPageWithLayout = () => {
   const router = useRouter();
@@ -106,12 +106,14 @@ const TutorProfile: NextPageWithLayout = () => {
                 {profile.tutorName}
               </h1>
               <Link
-                href="#testimonials"
-                className="lg:flex lg:space-x-1 items-center hidden text-gray-500 hover:text-gray-600 underline leading-6 mt-2"
+                href="#ratings"
+                className="lg:flex items-center hidden  hover:text-gray-600 leading-6 mt-2"
                 scroll={false}
               >
-                <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
-                <div>{profile.testimonialCount} testimonials →</div>
+                <Rating
+                  rating={profile.totalRating / profile.ratingCount}
+                  rateCount={profile.ratingCount}
+                />
               </Link>
               <div className="lg:flex hidden mt-4">
                 <span className="space-x-2">
@@ -175,12 +177,14 @@ const TutorProfile: NextPageWithLayout = () => {
               </div>
               <div className="lg:hidden pb-4 space-y-4">
                 <Link
-                  href="#testimonials"
-                  className="flex space-x-1 items-center text-gray-500 hover:text-gray-600 underline leading-6 "
+                  href="#ratings"
+                  className="flex hover:text-gray-600 leading-6 "
                   scroll={false}
                 >
-                  <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
-                  <div>{profile.testimonialCount} testimonials →</div>
+                  <Rating
+                    rating={profile.totalRating / profile.ratingCount}
+                    rateCount={profile.ratingCount}
+                  />
                 </Link>
                 <div className="flex space-x-2">
                   <span className="lg:ml-3 space-x-2">
@@ -282,8 +286,9 @@ const TutorProfile: NextPageWithLayout = () => {
               </dl>
             </div>
 
-            <div id="testimonials" ref={testRef}>
-              <TestimonialSection
+            <div id="ratings" ref={testRef}>
+              <RatingSection
+                profileRefetch={refetch}
                 profileId={profile.id}
                 profileUrlId={profile.urlId}
               />

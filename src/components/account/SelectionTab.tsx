@@ -23,14 +23,14 @@ export default function SelectionTab() {
         </li>
         <li className="">
           <button
-            onClick={() => router.replace("/account/testimonials")}
+            onClick={() => router.replace("/account/ratings")}
             className={
-              router.pathname === "/account/testimonials"
+              router.pathname === "/account/ratings"
                 ? tabClassesSelected
                 : tabClasses
             }
           >
-            Given Testimonials
+            Given Ratings
           </button>
         </li>
       </ul>
