@@ -116,6 +116,7 @@ const CreateProfile: NextPageWithLayout = () => {
             onChange={formik.handleChange}
             value={formik.values.title}
             required
+            maxLength={100}
           />
           <p className="mt-2 text-sm text-gray-500">
             You can write whatever you want in the title. We recommend a brief

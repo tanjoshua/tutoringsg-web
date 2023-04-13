@@ -107,6 +107,7 @@ const EditProfile: NextPageWithLayout = () => {
             placeholder="Eg. Mathematics Tutor with 5 years of experience."
             onChange={formik.handleChange}
             value={formik.values.title}
+            maxLength={100}
             required
           />
           <p className="mt-2 text-sm text-gray-500">
