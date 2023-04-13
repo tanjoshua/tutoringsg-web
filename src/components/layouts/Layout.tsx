@@ -7,7 +7,7 @@ type Props = { children: any };
 
 const Layout = (props: Props) => {
   return (
-    <div className="relative min-h-screen pb-10">
+    <div className="relative min-h-screen pb-20">
       <Navbar />
       <Toaster />
       <main>{props.children}</main>
