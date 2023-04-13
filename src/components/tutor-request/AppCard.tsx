@@ -15,6 +15,7 @@ import {
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { Tooltip } from "react-tooltip";
+import Rating from "../tutor-profile/Rating";
 
 interface TutorProfile {
   _id: string;
@@ -28,6 +29,8 @@ interface TutorProfile {
   image: string;
   contactInfo: any;
   profilePic: { location: string };
+  totalRating: number;
+  ratingCount: number;
 }
 
 export default function AppCard({
@@ -99,8 +102,12 @@ export default function AppCard({
               )}
             </div>
           </div>
+          <Rating
+            rating={tutorProfile.totalRating / tutorProfile.ratingCount}
+            rateCount={tutorProfile.ratingCount}
+          />
 
-          <p className="mt-1 text-sm text-gray-500 line-clamp-4 mb-1">
+          <div className="mt-1 text-sm text-gray-500 line-clamp-4 mb-1">
             <div className="sm:flex sm:items-center sm:space-x-1">
               <div className="flex items-center text-sm text-gray-500">
                 <TagIcon
@@ -118,7 +125,7 @@ export default function AppCard({
               </div>
             </div>
             <div className="mt-2">{tutorProfile.qualifications}</div>
-          </p>
+          </div>
         </div>
         <div className="flex flex-1 items-end justify-between text-sm mt-2">
           <div
