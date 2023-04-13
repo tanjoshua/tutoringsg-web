@@ -1,9 +1,5 @@
 import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  ChatBubbleBottomCenterTextIcon,
-  ExclamationTriangleIcon,
-} from "@heroicons/react/24/outline";
 import { useQuery } from "react-query";
 import { getTutorApplication } from "@/services/tutorRequest";
 import { ApplicationState } from "@/utils/enums";
@@ -16,6 +12,7 @@ import {
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import Link from "next/link";
+import Rating from "../tutor-profile/Rating";
 
 export default function TutorDetailsModal({
   id,
@@ -119,21 +116,19 @@ export default function TutorDetailsModal({
                           </div>
                         </h3>
                         <Link
-                          href={`/${data?.tutorApplication?.tutorProfile.urlId}#testimonials`}
-                          className="mt-4 text-gray-500 text-sm flex space-x-1 items-center underline"
+                          href={`/${data?.tutorApplication?.tutorProfile.urlId}#ratings`}
+                          className="mt-4 flex"
                           target="_blank"
                         >
-                          <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
-                          <div>
-                            {
-                              data?.tutorApplication?.tutorProfile
-                                .testimonialCount
-                            }{" "}
-                            testimonial
-                            {data?.tutorApplication?.tutorProfile
-                              .testimonialCount > 1 && "s"}{" "}
-                            →
-                          </div>
+                          <Rating
+                            rating={
+                              data?.tutorApplication?.tutorProfile.totalRating /
+                              data?.tutorApplication?.tutorProfile.ratingCount
+                            }
+                            rateCount={
+                              data?.tutorApplication?.tutorProfile.ratingCount
+                            }
+                          />
                         </Link>
                         <button
                           type="button"

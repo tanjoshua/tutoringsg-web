@@ -1,29 +1,12 @@
-import {
-  BookmarkIcon,
-  BookmarkSlashIcon,
-  EyeIcon,
-  EyeSlashIcon,
-  XCircleIcon,
-  PhoneIcon,
-  CurrencyDollarIcon,
-  ChatBubbleBottomCenterTextIcon,
-} from "@heroicons/react/24/outline";
-import { updateTutorApplicationState } from "@/services/tutorRequest";
-import { ApplicationState } from "@/utils/enums";
-import { MapPinIcon, TagIcon, UserIcon } from "@heroicons/react/20/solid";
-import ContactModal from "./ContactModal";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function SmallProfileCard({
   tutorProfile,
-  showDetails,
 }: {
   tutorProfile: any;
-  showDetails?: Function;
 }) {
-  const [contactModalIsOpen, setContactModalIsOpen] = useState(false);
   // normal version
   return (
     <Link
