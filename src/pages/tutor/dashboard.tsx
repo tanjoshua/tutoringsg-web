@@ -3,23 +3,14 @@ import { Fragment, ReactElement, useEffect, useState } from "react";
 import Layout from "../../components/layouts/Layout";
 import { useQuery } from "react-query";
 import {
-  PencilIcon,
-  ArrowPathIcon,
-  XCircleIcon,
-} from "@heroicons/react/20/solid";
-import {
   ChevronDownIcon,
   MinusIcon,
   PlusIcon,
 } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import {
-  getAppliedRequests,
-  getTutorApplications,
-  getTutorRequests,
-} from "@/services/tutorRequest";
-import { ApplicationState, RateOptions, TutorType } from "@/utils/enums";
+import { getAppliedRequests, getTutorRequests } from "@/services/tutorRequest";
+import { TutorType } from "@/utils/enums";
 import Spinner from "@/components/shared/Spinner";
 import Select from "@/components/shared/Select";
 import { LevelCategories, levelCategoryOptions } from "@/utils/options/levels";
@@ -29,7 +20,6 @@ import RequestCard from "@/components/tutor-request/RequestCard";
 import PaginateFooter from "@/components/shared/PaginateFooter";
 import TutorRequestModal from "@/components/tutor-request/TutorRequestModal";
 import { getUserTutorProfile } from "@/services/tutor";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { regionOptions } from "@/utils/options/regions";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { classNames } from "@/utils/helpers";
@@ -41,7 +31,7 @@ const tabClasses =
 const tabClassesSelected =
   "inline-block px-4 pb-4 text-indigo-600 border-b-2 border-indigo-600 rounded-t-lg";
 
-const TutorProfile: NextPageWithLayout = () => {
+const Dashboard: NextPageWithLayout = () => {
   const router = useRouter();
   const { token } = router.query;
   const [filters, setFilters] = useState<{
@@ -526,7 +516,7 @@ const TutorProfile: NextPageWithLayout = () => {
                     <Spinner />
                   ) : (
                     <div>
-                      <div className="divide-y-2">
+                      <div className="divide-y">
                         {data.tutorRequests.map((tutorRequest: any) => (
                           <RequestCard
                             key={tutorRequest._id}
@@ -555,7 +545,7 @@ const TutorProfile: NextPageWithLayout = () => {
                   <Spinner />
                 ) : (
                   <div>
-                    <div className="divide-y-2">
+                    <div className="divide-y">
                       {appliedData.applications.map((application: any) => (
                         <RequestCard
                           key={application._id}
@@ -588,7 +578,7 @@ const TutorProfile: NextPageWithLayout = () => {
   );
 };
 
-TutorProfile.getLayout = (page: ReactElement) => {
+Dashboard.getLayout = (page: ReactElement) => {
   return (
     <Layout>
       <RouteGuardRedirect ifNoTutorProfile>{page}</RouteGuardRedirect>
@@ -596,4 +586,4 @@ TutorProfile.getLayout = (page: ReactElement) => {
   );
 };
 
-export default TutorProfile;
+export default Dashboard;

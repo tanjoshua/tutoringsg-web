@@ -55,7 +55,7 @@ const AccountRatings: NextPageWithLayout = () => {
             </div>
             <SelectionTab />
             {!ratingsIsLoading && (
-              <div className="divide-y-2">
+              <div className="divide-y">
                 {ratingData?.ratings.length === 0 && (
                   <p className="text-gray-600 py-6">No ratings found</p>
                 )}
