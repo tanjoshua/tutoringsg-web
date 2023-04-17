@@ -164,6 +164,14 @@ export default function ContactModal({
                           <div className="ml-2">Send Email</div>
                         </Link>
                       )}
+                      {!contactInfo.email &&
+                        !contactInfo.phoneNumber &&
+                        !contactInfo.telegram && (
+                          <p className="text-sm text-gray-500">
+                            No method of direct contact provided, please fill in
+                            the contact form
+                          </p>
+                        )}
                     </div>
                   </div>
                   <div className="flex md:flex-col items-center">

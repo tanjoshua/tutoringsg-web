@@ -403,7 +403,9 @@ const CreateProfile: NextPageWithLayout = () => {
             </div>
           </div>
           <p className="mt-2 text-sm text-gray-500">
-            Let potential customers contact you
+            Let potential customers contact you. If you don&apos;t provide any
+            contact information. Clients will still be able to contact you via a
+            contact form where we will notify you through your account email
           </p>
         </div>
         <div className="mb-4">
