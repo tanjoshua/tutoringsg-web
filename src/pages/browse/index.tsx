@@ -83,7 +83,7 @@ const initialFilters = {
   subjects: {},
   search: "",
   page: 1,
-  sortBy: ProfileSortBy.Oldest,
+  sortBy: ProfileSortBy.RecentlyUpdated,
 };
 const BrowseTutors: NextPageWithLayout = () => {
   const router = useRouter();

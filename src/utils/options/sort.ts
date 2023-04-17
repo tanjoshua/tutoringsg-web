@@ -1,8 +1,9 @@
 export enum ProfileSortBy {
+  RecentlyUpdated = "Recently Updated",
   Oldest = "Oldest",
-  Newest = "Newest",
-  LowestRate = "Lowest Rate",
-  HighestRate = "Highest Rate",
+  LowestPrice = "Lowest Price",
+  HighestPrice = "Highest Price",
+  MostRatings = "Most Ratings",
 }
 
 export enum RequestSortBy {
