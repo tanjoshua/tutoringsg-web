@@ -26,6 +26,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
 import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
+import Rating from "@/components/tutor-profile/Rating";
 
 const YourProfile: NextPageWithLayout = () => {
   const router = useRouter();
@@ -185,6 +186,14 @@ const YourProfile: NextPageWithLayout = () => {
                     ? "All regions & online"
                     : profile.regions.join(", ")}
                 </div>
+              </div>
+              <div className="mt-2">
+                <Link href="/tutor/your-reviews">
+                  <Rating
+                    rating={profile.totalRating / profile.ratingCount}
+                    rateCount={profile.ratingCount}
+                  />
+                </Link>
               </div>
             </div>
           </div>

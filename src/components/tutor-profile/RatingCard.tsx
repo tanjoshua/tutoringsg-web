@@ -15,7 +15,9 @@ export default function RatingCard({
     <div className="sm:flex py-6">
       <div className="relative sm:w-40 flex-shrink-0 flex justify-between sm:block ">
         <div className="text-gray-900 text-sm">
-          {isUsersRating ? "You" : rating.authorName}
+          {isUsersRating
+            ? "You"
+            : rating.authorName || rating.noAccountAuthorName}
         </div>
         <div className="text-gray-600 sm:mt-2 text-sm">
           {new Date(rating.createdAt).toLocaleDateString("en-us", {

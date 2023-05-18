@@ -31,14 +31,19 @@ const Navbar = () => {
   const navigation = atTutorPortal
     ? [
         {
+          name: "Tutor Profile",
+          href: "/tutor/your-profile",
+          current: router.pathname === "/tutor/your-profile",
+        },
+        {
+          name: "Your Reviews",
+          href: "/tutor/your-reviews",
+          current: router.pathname === "/tutor/your-reviews",
+        },
+        {
           name: "Apply to Requests",
           href: "/tutor/dashboard",
           current: router.pathname === "/tutor/dashboard",
-        },
-        {
-          name: "My Tutor Profile",
-          href: "/tutor/your-profile",
-          current: router.pathname === "/tutor/your-profile",
         },
       ]
     : [
@@ -111,21 +116,19 @@ const Navbar = () => {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                {isLoggedIn &&
-                  isTutorAccount &&
-                  (atTutorPortal ? (
-                    <Link href="/browse">
-                      <div className="hidden md:block text-gray-300">
-                        Client portal <span aria-hidden="true">&rarr;</span>
-                      </div>
-                    </Link>
-                  ) : (
-                    <Link href="/tutor/your-profile">
-                      <div className="hidden md:block text-gray-300">
-                        Tutor portal <span aria-hidden="true">&rarr;</span>
-                      </div>
-                    </Link>
-                  ))}
+                {isLoggedIn && isTutorAccount && (
+                  <div className="hidden md:block text-gray-300 hover:bg-gray-700 hover:text-whit px-3 py-2 rounded-md text-sm font-medium">
+                    {atTutorPortal ? (
+                      <Link href="/browse">
+                        <div>Go to client portal</div>
+                      </Link>
+                    ) : (
+                      <Link href="/tutor/your-profile">
+                        <div>Go to tutor portal</div>
+                      </Link>
+                    )}
+                  </div>
+                )}
 
                 {/* Profile dropdown */}
                 {!isLoading &&
@@ -133,7 +136,7 @@ const Navbar = () => {
                   (isLoggedIn ? (
                     <Menu as="div" className="relative ml-3">
                       <div>
-                        <Menu.Button className="flex rounded-full p-1 bg-gray-800 text-gray-400 hover:text-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <Menu.Button className="flex flex-col items-center rounded-full p-1 bg-gray-800 text-gray-400 hover:text-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="sr-only">Open user menu</span>
                           <UserIcon className="h-8 w-8" aria-hidden="true" />
                         </Menu.Button>

@@ -12,3 +12,7 @@ export enum RequestSortBy {
   MostApplicants = "Most Applicants",
   LeastApplicants = "Least Applicants",
 }
+
+export enum ReviewSortBy {
+  Newest = "Newest",
+}

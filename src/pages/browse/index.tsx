@@ -520,7 +520,7 @@ const BrowseTutors: NextPageWithLayout = () => {
                 <Spinner />
               ) : (
                 <div>
-                  <div className="divide-y-2">
+                  <div className="divide-y">
                     {data.profiles?.map((tutor: any) => (
                       <ProfileCard tutorProfile={tutor} key={tutor.id} />
                     ))}

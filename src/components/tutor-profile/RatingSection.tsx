@@ -93,7 +93,7 @@ export default function RatingSection({
         <h1 className="text-xl font-bold text-gray-900 sm:text-2xl leading-6">
           Recent Ratings
         </h1>
-        <div className="divide-y-2">
+        <div className="divide-y">
           {!loadingButton &&
             (user ? (
               !user.emailVerified ? (

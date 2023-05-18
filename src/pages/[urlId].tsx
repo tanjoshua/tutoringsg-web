@@ -286,7 +286,7 @@ const TutorProfile: NextPageWithLayout = () => {
               </dl>
             </div>
 
-            <div id="ratings" ref={testRef}>
+            <div className="" id="ratings" ref={testRef}>
               <RatingSection
                 profileRefetch={refetch}
                 profileId={profile.id}
