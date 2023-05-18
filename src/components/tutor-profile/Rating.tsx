@@ -16,12 +16,12 @@ export default function Rating({
 
   for (let i = 0; i < 5; i++) {
     if (roundedRating >= 1) {
-      stars.push(<StarIcon className="w-5 h-5 text-yellow-400" />);
+      stars.push(<StarIcon className="w-5 h-5 text-yellow-400" key={i} />);
     } else if (roundedRating === 0.5) {
-      stars.push(<StarIcon className="w-5 h-5 text-yellow-400" />); // TODO: replace with half star
+      stars.push(<StarIcon className="w-5 h-5 text-yellow-400" key={i} />); // TODO: replace with half star
     } else {
       // empty star
-      stars.push(<StarIcon className="w-5 h-5 text-gray-300" />);
+      stars.push(<StarIcon className="w-5 h-5 text-gray-300" key={i} />);
     }
 
     roundedRating -= 1;

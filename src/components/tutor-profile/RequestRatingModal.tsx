@@ -8,82 +8,39 @@ import {
 import { LockClosedIcon, StarIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
-import { postRating } from "@/services/rating";
+import { postRating, requestRating } from "@/services/rating";
 import axios from "axios";
 
 const fillClasses = "h-8 w-8 cursor-pointer text-yellow-400";
 const unfilledClasses = "h-8 w-8 cursor-pointer text-gray-300";
 
-export function RatingSelect({
-  rating,
-  setRating,
-}: {
-  rating: number;
-  setRating: Function;
-}) {
-  const [hoverValue, setHoverValue] = useState<number | undefined>(undefined);
-  const stars = Array(5).fill(0);
-  const handleClick = (value: number) => {
-    setRating(value);
-  };
-
-  const handleMouseOver = (newHoverValue: number) => {
-    setHoverValue(newHoverValue);
-  };
-
-  const handleMouseLeave = () => {
-    setHoverValue(undefined);
-  };
-
-  return (
-    <div className="flex justify-center items-center ">
-      {stars.map((_, index) => {
-        return (
-          <StarIcon
-            className={
-              (hoverValue || rating) > index ? fillClasses : unfilledClasses
-            }
-            key={index}
-            onClick={() => handleClick(index + 1)}
-            onMouseOver={() => handleMouseOver(index + 1)}
-            onMouseLeave={handleMouseLeave}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-export default function WriteRatingModal({
+export default function RequestRatingModal({
   open,
   setOpen,
   profileId,
-  refetch,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   profileId: string;
-  refetch: Function;
 }) {
   const formik = useFormik({
     initialValues: {
-      testimonial: "",
-      rating: 0,
+      email: "",
+      message: "",
     },
     onSubmit: async (values, { resetForm }) => {
       try {
-        await postRating({ ...values, tutorProfile: profileId });
+        await requestRating({ email: values.email, message: values.message });
         setOpen(false);
         resetForm();
-        refetch();
-        toast.success("Rating posted");
+        toast.success("Rating requested");
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast.error(
-            error.response?.data?.message || "Could not create rating"
+            error.response?.data?.message || "Could not send request"
           );
         } else {
-          toast.error("Could not create rating");
+          toast.error("Could not send request");
         }
       }
     },
@@ -147,36 +104,42 @@ export default function WriteRatingModal({
                           as="h3"
                           className="text-lg font-medium leading-6 text-gray-900"
                         >
-                          Leave a Rating
+                          Rating Request
                         </Dialog.Title>
+                        <div className="mt-2">
+                          <p className="text-sm text-gray-500">
+                            We will send a unique link to the recipient&apos;s
+                            email and they will be able to leave a review via
+                            the link.
+                          </p>
+                        </div>
                       </div>
                     </div>
                     <div className="mt-4 pt-4 space-y-4 flex flex-col border-t">
                       <div className="mb-4">
                         <label className="text-start block mb-2 font-medium text-gray-900">
-                          Your Rating
+                          Student/Parent Email
                         </label>
-                        <RatingSelect
-                          rating={formik.values.rating}
-                          setRating={(rating: number) =>
-                            formik.setFieldValue("rating", rating)
-                          }
+                        <input
+                          type="email"
+                          id="email"
+                          className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
+                          onChange={formik.handleChange}
+                          value={formik.values.email}
+                          required
                         />
                       </div>
                       <div className="mb-4">
                         <label className="text-start block mb-2 font-medium text-gray-900">
-                          Testimonial
+                          Attach a message (optional)
                         </label>
                         <textarea
-                          className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-indigo-600 focus:outline-none"
-                          id="testimonial"
-                          rows={5}
-                          placeholder="Your testimonial"
+                          id="message"
+                          rows={2}
+                          className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none block w-full p-2.5"
                           onChange={formik.handleChange}
-                          value={formik.values.testimonial}
-                          maxLength={1000}
-                          required
-                        ></textarea>
+                          value={formik.values.message}
+                        />
                       </div>
                     </div>
                   </div>

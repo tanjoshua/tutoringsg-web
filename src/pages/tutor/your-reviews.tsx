@@ -2,37 +2,18 @@ import { NextPageWithLayout } from "../_app";
 import { Fragment, ReactElement, useEffect, useState } from "react";
 import Layout from "../../components/layouts/Layout";
 import { useQuery } from "react-query";
-import {
-  ChevronDownIcon,
-  MinusIcon,
-  PlusIcon,
-} from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { getAppliedRequests, getTutorRequests } from "@/services/tutorRequest";
-import { TutorType } from "@/utils/enums";
-import Spinner from "@/components/shared/Spinner";
-import Select from "@/components/shared/Select";
-import { LevelCategories, levelCategoryOptions } from "@/utils/options/levels";
-import { levelCategoryToSubjectOptions } from "@/utils/options/subjects";
-import Creatable from "@/components/shared/Creatable";
-import RequestCard from "@/components/tutor-request/RequestCard";
 import PaginateFooter from "@/components/shared/PaginateFooter";
-import TutorRequestModal from "@/components/tutor-request/TutorRequestModal";
 import { getUserTutorProfile } from "@/services/tutor";
-import { regionOptions } from "@/utils/options/regions";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Menu, Transition } from "@headlessui/react";
 import { classNames } from "@/utils/helpers";
 import { ReviewSortBy } from "@/utils/options/sort";
 import RouteGuardRedirect from "@/components/auth/RouteGuardRedirect";
-import RatingSection from "@/components/tutor-profile/RatingSection";
 import { getRatings } from "@/services/rating";
 import RatingCard from "@/components/tutor-profile/RatingCard";
-
-const tabClasses =
-  "inline-block px-4 pb-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 ";
-const tabClassesSelected =
-  "inline-block px-4 pb-4 text-indigo-600 border-b-2 border-indigo-600 rounded-t-lg";
+import RequestRatingModal from "@/components/tutor-profile/RequestRatingModal";
 
 const Reviews: NextPageWithLayout = () => {
   const router = useRouter();
@@ -75,6 +56,11 @@ const Reviews: NextPageWithLayout = () => {
       <Head>
         <title>Your Reviews</title>
       </Head>
+      <RequestRatingModal
+        open={sendRequestModalOpen}
+        setOpen={setSendRequestModalOpen}
+        profileId={data?.profile?.id}
+      />
       <div className="bg-white px-4 py-5 mx-auto">
         <div className="flex items-baseline justify-between border-b border-gray-200 pb-6">
           <div>
